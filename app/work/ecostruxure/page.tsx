@@ -8,7 +8,6 @@ export const metadata: Metadata = {
 
 const A = '#0c766a'
 const SEC = '1px solid rgba(15,20,23,.09)'
-const ROW = '1px solid rgba(15,20,23,.07)'
 const mono = 'var(--font-mono)'
 
 // ── Data ──────────────────────────────────────────────────
