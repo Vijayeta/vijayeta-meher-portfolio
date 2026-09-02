@@ -1,6 +1,6 @@
 # Portfolio Website — CLAUDE.md
 
-Personal portfolio site for **Vijayeta Meher**, positioning her transition from Product Owner to (AI) Product Manager. Single-page marketing site with two deep-dive case study pages.
+Personal portfolio site for **Vijayeta Meher**, positioning her transition from Product Owner to (AI) Product Manager. Single-page marketing site with deep-dive case study pages.
 
 ## Stack
 
@@ -18,7 +18,9 @@ app/
   page.tsx                composes the single-page site: Nav + Hero/About/Work/Cases/Writing + Contact
   globals.css             resets, animations, hover states, responsive rules
   cases/energysense/page.tsx   full case study — EnergySense AI (10-section long-form)
+  cases/novacell/page.tsx      full case study — Telecom RAG Assistant (10-section long-form)
   work/gsa/page.tsx            full case study — Global Search Application (Ericsson)
+  work/ecostruxure/page.tsx    full case study — EcoStruxure Energy Hub (Schneider Electric)
 components/
   Nav.tsx                 fixed header, scroll-spy active section, scroll-progress bar
   sections/               Hero, About, Work, Cases, Writing, Contact — one per homepage section
@@ -46,11 +48,11 @@ All homepage content is typed and data-driven — to edit copy, edit this file, 
 - `HEROSTATS` — 3 animated hero stats
 - `FRAMEWORKS` — "how I think" 4-up grid in About
 - `CAREER` — career timeline table rows in About
-- `WORKS` — 3 "selected work" cards (Rails, Liftoff, Global Search — GSA links to `/work/gsa`)
-- `CASES` — 3 AI Lab case study summaries shown on homepage (EnergySense AI links to `/cases/energysense`; Flowstate and Cartog have no linked detail page yet)
+- `WORKS` — 2 "selected work" cards (Global Search → `/work/gsa`, EcoStruxure Energy Hub → `/work/ecostruxure`)
+- `CASES` — 2 AI Lab case study summaries shown on homepage (EnergySense AI → `/cases/energysense`, Telecom RAG Assistant → `/cases/novacell`)
 - `POSTS` — 5 writing/blog entries, currently all link to `href="#"` (no blog exists)
 
-The two full case study pages (`app/cases/energysense/page.tsx`, `app/work/gsa/page.tsx`) each hardcode their own long-form content as local `const` arrays at the top of the file — they do **not** pull from `lib/data.ts` beyond the summary card linking to them.
+Each full case study page hardcodes its own long-form content as local `const` arrays at the top of the file — they do **not** pull from `lib/data.ts` beyond the summary card linking to them.
 
 ## Current status / known placeholders
 

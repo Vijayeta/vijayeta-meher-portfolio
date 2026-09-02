@@ -129,7 +129,7 @@ export default function Cases() {
 
         <RevealSection style={{ margin: '0 0 32px' }}>
           <h2 style={{ margin: 0, fontSize: 'clamp(30px,4vw,52px)', fontWeight: 600, letterSpacing: '-.03em', lineHeight: 1.04, maxWidth: '18ch' }}>
-            Three product problems, start to outcome.
+            AI product problems, start to outcome.
           </h2>
         </RevealSection>
 

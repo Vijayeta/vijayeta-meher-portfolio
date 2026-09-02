@@ -117,6 +117,34 @@ body {
   .ec-hide-sm  { display: none !important; }
 }
 
+/* ── Telecom RAG Case Study — Responsive ── */
+@media (max-width: 768px) {
+  .nc-nav    { padding: 0 24px !important; }
+  .nc-header { padding: 72px 24px 40px !important; }
+  .nc-s      { padding-top: 48px !important; padding-bottom: 48px !important; }
+  .nc-w      { padding-left: 24px !important; padding-right: 24px !important; }
+  .nc-grid-4 { grid-template-columns: 1fr 1fr !important; }
+  .nc-grid-3 { grid-template-columns: 1fr 1fr !important; }
+  .nc-grid-2 { grid-template-columns: 1fr !important; }
+  .nc-table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .nc-table      { min-width: 500px; }
+  .nc-table-wide { min-width: 660px; }
+}
+
+@media (max-width: 640px) {
+  .nc-nav      { padding: 0 16px !important; }
+  .nc-header   { padding: 64px 16px 36px !important; }
+  .nc-s        { padding-top: 40px !important; padding-bottom: 40px !important; }
+  .nc-w        { padding-left: 16px !important; padding-right: 16px !important; }
+  .nc-grid-4   { grid-template-columns: 1fr !important; }
+  .nc-grid-3   { grid-template-columns: 1fr !important; }
+  .nc-grid-2   { grid-template-columns: 1fr !important; }
+  .nc-glance   { grid-template-columns: 110px 1fr !important; gap: 8px !important; }
+  .nc-links    { flex-direction: column !important; }
+  .nc-lesson   { grid-template-columns: 1fr !important; gap: 8px !important; }
+  .nc-hide-sm  { display: none !important; }
+}
+
 @media (max-width: 600px) {
   .grid-works  { grid-template-columns: 1fr !important; }
   .grid-frames { grid-template-columns: 1fr !important; }

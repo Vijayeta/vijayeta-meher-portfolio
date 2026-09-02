@@ -1,6 +1,6 @@
 # Vijayeta Meher — Portfolio
 
-Personal portfolio site for **Vijayeta Meher**, positioning her transition from Product Owner to (AI) Product Manager. A single-page marketing site with two in-depth case study pages.
+Personal portfolio site for **Vijayeta Meher**, positioning her transition from Product Owner to (AI) Product Manager. A single-page marketing site with in-depth case study pages.
 
 **Live:** [vijayeta-meher-portfolio.vercel.app](https://vijayeta-meher-portfolio.vercel.app/)
 
@@ -17,6 +17,7 @@ Personal portfolio site for **Vijayeta Meher**, positioning her transition from 
 app/
   page.tsx                     homepage: Hero, About, Work, Cases, Writing, Contact
   cases/energysense/           case study — EnergySense AI
+  cases/novacell/              case study — Telecom RAG Assistant
   work/gsa/                    case study — Global Search Application (Ericsson)
   work/ecostruxure/            case study — EcoStruxure Energy Hub (Schneider Electric)
 components/

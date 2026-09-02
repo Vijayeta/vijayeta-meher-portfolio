@@ -102,6 +102,23 @@ export const CASES: Case[] = [
     ],
     href: '/cases/energysense',
   },
+  {
+    idx: '02', company: 'Telecom RAG Assistant', sector: 'AI CUSTOMER SUPPORT · RAG', role: "SOLO PM + BUILDER · '25–NOW",
+    title: 'A support assistant that answers only what it can cite',
+    problem: "A mobile operator's Tier-1 answers already exist — split across a public FAQ, a resolved-ticket database and a PDF user guide. Customers can't search them together, and a confidently wrong answer about a price or a policy is worse than no answer at all.",
+    approach: [
+      'Fanned every question across three separately indexed sources in parallel, rather than one blended index where a verbose source crowds out the others',
+      'Grounded generation in nine source-labelled passages, so each claim traces back to a document a support operator owns',
+      'Made refusal a shipped feature — account-specific and off-topic questions are handed to a human instead of guessed at',
+    ],
+    main: { target: 0.8, dec: 1, prefix: '', suffix: 's' },
+    mainLabel: 'median response time',
+    sub: [
+      { target: 81, dec: 0, prefix: '', suffix: '', label: 'documents indexed' },
+      { target: 9,  dec: 0, prefix: '', suffix: '', label: 'sources cited / answer' },
+    ],
+    href: '/cases/novacell',
+  },
 ]
 
 export const POSTS: Post[] = [
