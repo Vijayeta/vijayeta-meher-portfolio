@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Manrope, Karla, JetBrains_Mono } from 'next/font/google'
+import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
 const manrope = Manrope({
@@ -48,7 +49,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       className={`${manrope.variable} ${karla.variable} ${jetbrainsMono.variable}`}
       suppressHydrationWarning
     >
-      <body suppressHydrationWarning>{children}</body>
+      <body suppressHydrationWarning>
+        {children}
+        <Analytics />
+      </body>
     </html>
   )
 }
