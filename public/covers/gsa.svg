@@ -1,0 +1,163 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 420" width="1200" height="420" role="img" aria-label="Global Search Tool interface: search bar, category tabs, filter row and result cards">
+  <defs>
+    <linearGradient id="hdr" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#182238"/>
+      <stop offset="1" stop-color="#101724"/>
+    </linearGradient>
+    <linearGradient id="skyline" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#0c766a" stop-opacity=".22"/>
+      <stop offset=".5" stop-color="#5fb3a6" stop-opacity=".14"/>
+      <stop offset="1" stop-color="#0c766a" stop-opacity=".22"/>
+    </linearGradient>
+    <style>
+      .f  { font-family: Karla, 'Segoe UI', system-ui, sans-serif; }
+      .m  { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+      .tab       { font-size: 13px; fill: rgba(255,255,255,.62); }
+      .tab-on    { font-size: 13px; fill: #ffffff; font-weight: 700; }
+      .navlink   { font-size: 11px; fill: rgba(255,255,255,.5); }
+      .filter    { font-size: 12px; fill: #5b6670; }
+      .seclabel  { font-size: 12.5px; fill: rgba(26,36,56,.5); }
+      .cardtitle { font-size: 12.5px; fill: #1a2438; font-weight: 600; }
+      .cardurl   { font-size: 11px; fill: #0c766a; }
+    </style>
+  </defs>
+
+  <!-- page ground -->
+  <rect width="1200" height="420" fill="#f4f6f9"/>
+
+  <!-- ══ Header band ══ -->
+  <rect width="1200" height="152" fill="url(#hdr)"/>
+  <rect width="1200" height="152" fill="url(#skyline)"/>
+
+  <!-- decorative skyline silhouette -->
+  <g fill="#0b111c" opacity=".5">
+    <rect x="60"  y="96" width="48" height="56"/>
+    <rect x="118" y="76" width="34" height="76"/>
+    <rect x="162" y="106" width="56" height="46"/>
+    <rect x="930" y="84"  width="40" height="68"/>
+    <rect x="980" y="104" width="62" height="48"/>
+    <rect x="1052" y="70" width="30" height="82"/>
+    <rect x="1092" y="98" width="52" height="54"/>
+  </g>
+
+  <!-- wordmark -->
+  <text class="f" x="40" y="32" font-size="17" font-weight="700" fill="#ffffff">Global Search Tool</text>
+
+  <!-- header nav -->
+  <g class="f">
+    <text class="navlink" x="836" y="30">About</text>
+    <text class="navlink" x="890" y="30">Help</text>
+    <text class="navlink" x="934" y="30">Feedback</text>
+    <text class="navlink" x="1010" y="30">Join the discussions</text>
+  </g>
+
+  <!-- search field -->
+  <rect x="60" y="52" width="1080" height="44" rx="8" fill="#ffffff"/>
+  <text class="f" x="82" y="80" font-size="14" fill="rgba(26,36,56,.45)">How can I help you?</text>
+  <g stroke="#0c766a" stroke-width="2" fill="none" stroke-linecap="round">
+    <circle cx="1101" cy="72" r="7"/>
+    <path d="M1107 78l6 6"/>
+  </g>
+
+  <!-- category tabs -->
+  <g class="f">
+    <rect x="60" y="116" width="72" height="36" rx="6" fill="#ffffff" opacity=".14"/>
+    <text class="tab-on" x="87" y="139">All</text>
+    <text class="tab" x="156" y="139">Corporate</text>
+    <text class="tab" x="248" y="139">Documents</text>
+    <text class="tab" x="352" y="139">Learning</text>
+    <text class="tab" x="443" y="139">Media</text>
+    <text class="tab" x="513" y="139">People</text>
+    <text class="tab" x="587" y="139">Products</text>
+    <text class="tab" x="677" y="139">Wikis &amp; forums</text>
+    <rect x="800" y="122" width="1" height="24" fill="rgba(255,255,255,.2)"/>
+    <text class="tab" x="822" y="139">Document libraries</text>
+  </g>
+
+  <!-- ══ Filter row ══ -->
+  <rect x="0" y="152" width="1200" height="44" fill="#ffffff"/>
+  <rect x="0" y="195" width="1200" height="1" fill="rgba(20,28,44,.08)"/>
+  <g class="f">
+    <text class="filter" x="72" y="180">Source</text>
+    <text class="filter" x="188" y="180">Format</text>
+    <text class="filter" x="300" y="180">Location</text>
+    <text class="filter" x="424" y="180">Organization</text>
+    <g fill="#5b6670" opacity=".7">
+      <path d="M124 174l5 5 5-5" stroke="#5b6670" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+      <path d="M236 174l5 5 5-5" stroke="#5b6670" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+      <path d="M360 174l5 5 5-5" stroke="#5b6670" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+      <path d="M512 174l5 5 5-5" stroke="#5b6670" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+    </g>
+    <!-- active "All filters" chip -->
+    <rect x="556" y="162" width="98" height="26" rx="6" fill="#e6f2f0" stroke="#bcdbd6"/>
+    <path d="M568 170h12l-4.5 5v6l-3-1.6v-4.4z" fill="#0c766a"/>
+    <text class="f" x="588" y="180" font-size="12" font-weight="600" fill="#0c766a">All Filters</text>
+  </g>
+
+  <!-- ══ Results ══ -->
+  <text class="f seclabel" x="72" y="228">Viewed by you</text>
+
+  <!-- row 1 -->
+  <g>
+    <g transform="translate(60,242)">
+      <rect width="348" height="58" rx="10" fill="#ffffff" stroke="rgba(20,28,44,.09)"/>
+      <rect x="16" y="17" width="24" height="24" rx="4" fill="#e6f2f0"/>
+      <g stroke="#0c766a" stroke-width="1.6" fill="none" stroke-linecap="round">
+        <circle cx="26" cy="26" r="3.4"/><path d="M21 35c0-2.8 2.2-5 5-5s5 2.2 5 5"/>
+      </g>
+      <text class="f cardtitle" x="54" y="26">Profile finder</text>
+      <text class="f cardurl" x="54" y="43">directory.internal / people</text>
+    </g>
+    <g transform="translate(426,242)">
+      <rect width="348" height="58" rx="10" fill="#ffffff" stroke="rgba(20,28,44,.09)"/>
+      <rect x="16" y="17" width="24" height="24" rx="4" fill="#e6f2f0"/>
+      <g stroke="#0c766a" stroke-width="1.6" fill="none" stroke-linecap="round">
+        <path d="M20 21h12v10H20z"/><path d="M23 25h6M23 28h6"/>
+      </g>
+      <text class="f cardtitle" x="54" y="26">Learning and development</text>
+      <text class="f cardurl" x="54" y="43">learning.internal / catalog</text>
+    </g>
+    <g transform="translate(792,242)">
+      <rect width="348" height="58" rx="10" fill="#ffffff" stroke="rgba(20,28,44,.09)"/>
+      <rect x="16" y="17" width="24" height="24" rx="4" fill="#e6f2f0"/>
+      <g stroke="#0c766a" stroke-width="1.6" fill="none" stroke-linecap="round">
+        <circle cx="26" cy="24" r="4"/><path d="M22 34l4-4 4 4"/>
+      </g>
+      <text class="f cardtitle" x="54" y="26">Skills platform</text>
+      <text class="f cardurl" x="54" y="43">skills.internal / home</text>
+    </g>
+  </g>
+
+  <text class="f seclabel" x="72" y="334">Viewed by your colleagues</text>
+
+  <!-- row 2 -->
+  <g>
+    <g transform="translate(60,348)">
+      <rect width="348" height="58" rx="10" fill="#ffffff" stroke="rgba(20,28,44,.09)"/>
+      <rect x="16" y="17" width="24" height="24" rx="4" fill="#e6f2f0"/>
+      <g stroke="#0c766a" stroke-width="1.6" fill="none" stroke-linecap="round">
+        <circle cx="25" cy="24" r="3.4"/><path d="M20 34c0-2.8 2.2-5 5-5"/><path d="M29 30l2.5 2.5L35 29"/>
+      </g>
+      <text class="f cardtitle" x="54" y="26">Talent management</text>
+      <text class="f cardurl" x="54" y="43">talent.internal / dashboard</text>
+    </g>
+    <g transform="translate(426,348)">
+      <rect width="348" height="58" rx="10" fill="#ffffff" stroke="rgba(20,28,44,.09)"/>
+      <rect x="16" y="17" width="24" height="24" rx="4" fill="rgba(240,169,61,.18)"/>
+      <g stroke="#e87500" stroke-width="1.6" fill="none" stroke-linecap="round">
+        <path d="M26 19a5 5 0 0 1 3 9v2h-6v-2a5 5 0 0 1 3-9z"/><path d="M24 33h4"/>
+      </g>
+      <text class="f cardtitle" x="54" y="26">Public holiday calendar</text>
+      <text class="f cardurl" x="54" y="43">hr.internal / holidays</text>
+    </g>
+    <g transform="translate(792,348)">
+      <rect width="348" height="58" rx="10" fill="#ffffff" stroke="rgba(20,28,44,.09)"/>
+      <rect x="16" y="17" width="24" height="24" rx="4" fill="#e6f2f0"/>
+      <g stroke="#0c766a" stroke-width="1.6" fill="none" stroke-linecap="round">
+        <path d="M20 21h12v10H20z"/><path d="M23 25h6M23 28h4"/>
+      </g>
+      <text class="f cardtitle" x="54" y="26">Certification program</text>
+      <text class="f cardurl" x="54" y="43">certify.internal / programs</text>
+    </g>
+  </g>
+</svg>

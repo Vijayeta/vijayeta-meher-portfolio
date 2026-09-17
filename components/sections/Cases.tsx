@@ -1,113 +1,101 @@
 'use client'
-import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import RevealSection from '@/components/ui/RevealSection'
+import CoverBand from '@/components/ui/CoverBand'
+import { useCountUpGroup } from '@/components/ui/useCountUpGroup'
 import { CASES, fmt, type Case } from '@/lib/data'
 
-const ACCENT = '#0c766a'
-
-function CaseStudy({ c }: { c: Case }) {
-  const ref = useRef<HTMLDivElement>(null)
-  const [progress, setProgress] = useState(0)
-
-  useEffect(() => {
-    const el = ref.current
-    if (!el) return
-    let counted = false
-
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry.isIntersecting) return
-        el.classList.add('in')
-        if (!counted) {
-          counted = true
-          const dur = 1500, t0 = performance.now()
-          const tick = (now: number) => {
-            const p = Math.min(1, (now - t0) / dur)
-            setProgress(1 - Math.pow(1 - p, 3))
-            if (p < 1) requestAnimationFrame(tick)
-          }
-          requestAnimationFrame(tick)
-        }
-        io.disconnect()
-      },
-      { threshold: 0.12, rootMargin: '0px 0px -7% 0px' }
-    )
-    io.observe(el)
-    return () => io.disconnect()
-  }, [])
+function CaseCard({ c }: { c: Case }) {
+  const { ref, progress } = useCountUpGroup()
 
   return (
     <article
-      ref={ref}
-      data-reveal=""
-      className="case-grid"
-      style={{
-        background: '#fff',
-        display: 'grid', gridTemplateColumns: '2.6fr 5fr 3fr',
-        gap: 36, padding: '40px 30px',
-      }}
+      ref={ref as React.RefObject<HTMLElement>}
+      className="card hover-lift"
+      style={{ width: '100%', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}
     >
-      {/* Left: meta */}
-      <div>
-        <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: ACCENT }}>{c.idx}</div>
-        <div style={{ fontSize: 28, fontWeight: 600, letterSpacing: '-.02em', marginTop: 16, color: '#0f1417' }}>{c.company}</div>
-        <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: '#6b757d', marginTop: 10, letterSpacing: '.04em' }}>{c.sector}</div>
-        <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: '#99a1a7', marginTop: 6, letterSpacing: '.04em' }}>{c.role}</div>
-      </div>
+      <CoverBand cover={c.cover} label="product shot" />
 
-      {/* Centre: problem + approach */}
-      <div>
-        <h3 style={{ margin: '0 0 16px', fontSize: 21, fontWeight: 600, letterSpacing: '-.01em', lineHeight: 1.25, color: '#0f1417' }}>
-          {c.title}
-        </h3>
-        <p style={{ margin: '0 0 22px', fontSize: 15, lineHeight: 1.6, color: '#4b5660' }}>{c.problem}</p>
-        <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: 11 }}>
-          {c.approach.map((b, i) => (
-            <li key={i} style={{ display: 'flex', gap: 11, fontSize: 14, lineHeight: 1.5, color: '#2c343a' }}>
-              <span style={{ color: ACCENT, fontFamily: 'var(--font-mono)', flexShrink: 0 }}>▲</span>
-              <span>{b}</span>
-            </li>
-          ))}
-        </ul>
-        {c.href && (
-          <div style={{ marginTop: 22 }}>
-            <Link href={c.href} style={{
-              display: 'inline-flex', alignItems: 'center', gap: 6,
-              fontFamily: 'var(--font-mono)', fontSize: 11, letterSpacing: '.1em',
-              color: ACCENT, textDecoration: 'none',
-              borderBottom: '1px solid rgba(12,118,106,.3)', paddingBottom: 2,
-            }}>
-              READ FULL CASE STUDY →
-            </Link>
+      <div style={{ padding: 22, display: 'flex', flexDirection: 'column', gap: 10, flex: 1 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+          <span className="chip">{c.tag}</span>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--ink-faint)' }}>
+            {c.role}
+          </span>
+        </div>
+
+        <div>
+          <h3 style={{
+            margin: 0, fontFamily: 'var(--font-display)', fontWeight: 700,
+            fontSize: 19, lineHeight: 1.3, color: 'var(--ink)',
+          }}>
+            {c.title}
+          </h3>
+          <div style={{
+            fontFamily: 'var(--font-mono)', fontSize: 11, letterSpacing: '.04em',
+            color: 'var(--ink-faint)', marginTop: 6,
+          }}>
+            {c.company} · {c.sector}
           </div>
-        )}
-      </div>
+        </div>
 
-      {/* Right: metrics */}
-      <div style={{ borderLeft: '1px solid rgba(15,20,23,.1)', paddingLeft: 30 }}>
+        <p style={{ margin: 0, fontSize: 14, lineHeight: 1.6, color: 'var(--ink-soft)' }}>
+          {c.problem}
+        </p>
+
+        {/* Only the lead approach point — the full list lives on the case study
+            page. Reorder `approach` in lib/data.ts to change which one shows. */}
+        <ul style={{ listStyle: 'none', margin: '2px 0 0', padding: 0 }}>
+          <li style={{ display: 'flex', gap: 10, fontSize: 13.5, lineHeight: 1.55, color: 'var(--ink-soft)' }}>
+            <span style={{ color: 'var(--accent)', flexShrink: 0, marginTop: 1 }} aria-hidden="true">▸</span>
+            <span>{c.approach[0]}</span>
+          </li>
+        </ul>
+
+        {/* Metrics strip */}
         <div style={{
-          fontSize: 'clamp(40px,4.4vw,60px)', fontWeight: 600,
-          letterSpacing: '-.03em', color: ACCENT, lineHeight: 1,
-          fontVariantNumeric: 'tabular-nums',
+          marginTop: 'auto', paddingTop: 18,
+          borderTop: '1px solid var(--card-border)',
+          display: 'flex', flexWrap: 'wrap', gap: 28, alignItems: 'flex-end',
         }}>
-          {fmt(c.main.target, c.main.dec, c.main.prefix, c.main.suffix, progress)}
-        </div>
-        <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: '#6b757d', marginTop: 10, letterSpacing: '.04em' }}>
-          {c.mainLabel}
-        </div>
-        <div style={{ display: 'flex', gap: 28, marginTop: 30 }}>
+          <div>
+            <div style={{
+              fontFamily: 'var(--font-mono)', fontWeight: 600, fontSize: 30,
+              color: 'var(--accent)', lineHeight: 1, fontVariantNumeric: 'tabular-nums',
+            }}>
+              {fmt(c.main.target, c.main.dec, c.main.prefix, c.main.suffix, progress)}
+            </div>
+            <div style={{ fontSize: 12, color: 'var(--ink-faint)', marginTop: 6 }}>
+              {c.mainLabel}
+            </div>
+          </div>
+
           {c.sub.map((m, i) => (
             <div key={i}>
-              <div style={{ fontSize: 22, fontWeight: 600, fontVariantNumeric: 'tabular-nums', color: '#0f1417' }}>
+              <div style={{
+                fontFamily: 'var(--font-mono)', fontWeight: 600, fontSize: 18,
+                color: 'var(--ink)', lineHeight: 1, fontVariantNumeric: 'tabular-nums',
+              }}>
                 {fmt(m.target, m.dec, m.prefix, m.suffix, progress)}
               </div>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, color: '#6b757d', marginTop: 6, letterSpacing: '.04em' }}>
+              <div style={{ fontSize: 12, color: 'var(--ink-faint)', marginTop: 6 }}>
                 {m.label}
               </div>
             </div>
           ))}
         </div>
+
+        {c.href && (
+          <Link
+            href={c.href}
+            style={{
+              marginTop: 4, fontSize: 14, fontWeight: 700,
+              color: 'var(--accent)', textDecoration: 'none',
+            }}
+          >
+            Read full case study →
+          </Link>
+        )}
       </div>
     </article>
   )
@@ -115,32 +103,19 @@ function CaseStudy({ c }: { c: Case }) {
 
 export default function Cases() {
   return (
-    <section
-      id="cases"
-      data-section="cases"
-      style={{ padding: '64px 0', borderBottom: '1px solid rgba(15,20,23,.08)' }}
-    >
-      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 40px' }}>
-
-        <RevealSection style={{ display: 'flex', alignItems: 'baseline', gap: 16, marginBottom: 18 }}>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: ACCENT }}>03</span>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, letterSpacing: '.16em', color: '#99a1a7' }}>AI LAB · CASE STUDIES</span>
-        </RevealSection>
-
-        <RevealSection style={{ margin: '0 0 32px' }}>
-          <h2 style={{ margin: 0, fontSize: 'clamp(30px,4vw,52px)', fontWeight: 600, letterSpacing: '-.03em', lineHeight: 1.04, maxWidth: '18ch' }}>
-            AI product problems, start to outcome.
-          </h2>
-        </RevealSection>
-
-        <div style={{
-          display: 'flex', flexDirection: 'column', gap: 1,
-          background: 'rgba(15,20,23,.09)', border: '1px solid rgba(15,20,23,.09)',
-        }}>
-          {CASES.map(c => <CaseStudy key={c.idx} c={c} />)}
-        </div>
-
+    <div id="ai-lab" className="section">
+      <div className="section-heading">
+        <p className="eyebrow">AI Lab · Case studies</p>
+        <h2>A few problems I liked solving</h2>
       </div>
-    </section>
+
+      <div className="cards-2" style={{ display: 'grid', gap: 20, alignItems: 'stretch' }}>
+        {CASES.map(c => (
+          <RevealSection key={c.idx} style={{ display: 'flex' }}>
+            <CaseCard c={c} />
+          </RevealSection>
+        ))}
+      </div>
+    </div>
   )
 }

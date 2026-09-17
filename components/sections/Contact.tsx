@@ -1,89 +1,106 @@
-import RevealSection from '@/components/ui/RevealSection'
+import { PROFILE } from '@/lib/data'
+import { SOCIAL_ICONS, type SocialIconKey } from '@/components/ui/Icons'
 
-const ACCENT = '#0c766a'
+/** Footer links. Entries with an empty href are dropped, so unset profile
+ *  fields simply don't render rather than pointing nowhere. */
+const LINKS: {
+  label: string
+  href: string
+  icon: SocialIconKey
+  external?: boolean
+  download?: boolean
+}[] = [
+  { label: 'LinkedIn', href: PROFILE.linkedin,  icon: 'linkedin', external: true },
+  { label: 'GitHub',   href: PROFILE.github,    icon: 'github',   external: true },
+  { label: 'Email',    href: PROFILE.email,     icon: 'mail' },
+  { label: 'Résumé',   href: PROFILE.resumeUrl, icon: 'file', download: true },
+]
 
 export default function Contact() {
   return (
-    <footer
-      id="contact"
-      data-section="contact"
-      style={{ padding: '64px 0 40px', position: 'relative', overflow: 'hidden' }}
-    >
-      {/* Background glow */}
-      <div style={{
-        position: 'absolute', bottom: '-30%', left: '-10%',
-        width: '55vw', height: '55vw',
-        background: 'radial-gradient(circle,rgba(12,118,106,.09),transparent 60%)',
-        filter: 'blur(10px)', pointerEvents: 'none',
-      }} />
-
-      <div style={{ position: 'relative', maxWidth: 1200, margin: '0 auto', padding: '0 40px' }}>
-
-        <RevealSection style={{ fontFamily: 'var(--font-mono)', fontSize: 11, letterSpacing: '.16em', color: '#99a1a7', marginBottom: 26 }}>
-          ↓ LET&apos;S TALK
-        </RevealSection>
-
-        <RevealSection>
-          <h2 style={{ margin: 0, fontSize: 'clamp(28px,4.2vw,56px)', fontWeight: 600, letterSpacing: '-.035em', lineHeight: 1.05, maxWidth: '16ch', color: '#0f1417' }}>
-            Looking for a PM who&apos;s lived the delivery side?
+    <>
+      <section id="contact" className="navy-band section" style={{ padding: '56px 0' }}>
+        <div
+          className="wrap"
+          style={{
+            maxWidth: 704,
+            display: 'flex', flexDirection: 'column',
+            alignItems: 'center', textAlign: 'center', gap: 16,
+          }}
+        >
+          <h2 style={{
+            margin: 0, fontFamily: 'var(--font-display)', fontWeight: 800,
+            fontSize: 'clamp(22px,3.4vw,28px)', lineHeight: 1.25, color: '#fff',
+          }}>
+            {PROFILE.ctaHeadline}
           </h2>
-        </RevealSection>
 
-        <RevealSection style={{ display: 'flex', flexWrap: 'wrap', gap: 16, marginTop: 44 }}>
-          <a
-            href="mailto:vijayeta.meher@gmail.com"
-            className="hover-btn-primary"
-            style={{
-              fontFamily: 'var(--font-mono)', fontSize: 13, letterSpacing: '.04em',
-              textDecoration: 'none', color: '#fff', background: ACCENT,
-              padding: '14px 24px', fontWeight: 500, transition: 'background .2s',
-            }}
-          >
-            vijayeta.meher@gmail.com →
-          </a>
-          <a
-            href="#"
-            className="hover-btn-outline"
-            style={{
-              fontFamily: 'var(--font-mono)', fontSize: 13, letterSpacing: '.04em',
-              textDecoration: 'none', color: '#2c343a',
-              border: '1px solid rgba(15,20,23,.16)', padding: '14px 24px',
-              transition: 'border-color .2s, color .2s',
-            }}
-          >
-            LinkedIn
-          </a>
-          <a
-            href="#"
-            className="hover-btn-outline"
-            style={{
-              fontFamily: 'var(--font-mono)', fontSize: 13, letterSpacing: '.04em',
-              textDecoration: 'none', color: '#2c343a',
-              border: '1px solid rgba(15,20,23,.16)', padding: '14px 24px',
-              transition: 'border-color .2s, color .2s',
-            }}
-          >
-            Resume
-          </a>
-        </RevealSection>
+          <p style={{
+            margin: 0, maxWidth: 480, fontSize: 15, lineHeight: 1.6,
+            color: 'rgba(255,255,255,.6)',
+          }}>
+            {PROFILE.ctaBody}
+          </p>
 
-        {/* Footer bar */}
-        <div style={{
-          display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-          flexWrap: 'wrap', gap: 16,
-          marginTop: 90, paddingTop: 26,
-          borderTop: '1px solid rgba(15,20,23,.1)',
-        }}>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: '#99a1a7', letterSpacing: '.06em' }}>
-            © 2026 VIJAYETA MEHER
-          </span>
-          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 9, fontFamily: 'var(--font-mono)', fontSize: 11, color: '#6b757d', letterSpacing: '.06em' }}>
-            <span className="blink" style={{ width: 6, height: 6, borderRadius: '50%', background: ACCENT }} />
-            AVAILABLE FOR PRODUCT MANAGER ROLES
-          </span>
+          <div style={{
+            display: 'flex', gap: 14, flexWrap: 'wrap', justifyContent: 'center',
+            marginTop: 6,
+          }}>
+            <a href={PROFILE.email} className="btn" style={{ fontSize: 16, padding: '14px 30px' }}>
+              Let&apos;s talk →
+            </a>
+            {PROFILE.linkedin && (
+              <a
+                href={PROFILE.linkedin}
+                target="_blank"
+                rel="noreferrer"
+                className="btn-outline btn-ghost-light"
+                style={{ fontSize: 16, padding: '14px 30px' }}
+              >
+                LinkedIn
+              </a>
+            )}
+          </div>
         </div>
+      </section>
 
-      </div>
-    </footer>
+      <footer
+        className="wrap"
+        style={{
+          paddingBlock: 30,
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          flexWrap: 'wrap', gap: 20,
+        }}
+      >
+        <p style={{ margin: 0, fontSize: 14, color: 'var(--ink-faint)' }}>
+          © {new Date().getFullYear()} {PROFILE.name}
+        </p>
+
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
+          {LINKS.filter(l => l.href).map(l => (
+            <a
+              key={l.label}
+              href={l.href}
+              {...(l.external ? { target: '_blank', rel: 'noreferrer' } : {})}
+              {...(l.download ? { download: true } : {})}
+              className="footer-link"
+              style={{
+                display: 'inline-flex', alignItems: 'center', gap: 9,
+                // 44px min tap target — these are the main outbound links
+                minHeight: 44, padding: '10px 16px',
+                fontSize: 16, fontWeight: 700,
+                color: 'var(--accent)', textDecoration: 'none',
+                border: '1px solid var(--accent-tint-border)',
+                background: 'var(--accent-tint)',
+                borderRadius: 999,
+              }}
+            >
+              <span style={{ display: 'flex', lineHeight: 0 }}>{SOCIAL_ICONS[l.icon]}</span>
+              {l.label}
+            </a>
+          ))}
+        </div>
+      </footer>
+    </>
   )
 }

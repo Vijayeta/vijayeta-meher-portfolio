@@ -1,0 +1,213 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 420" width="1200" height="420" role="img" aria-label="EcoStruxure Energy Hub dashboard: module sidebar, KPI tiles, an energy consumption trend chart, site status list and an alarms panel">
+  <defs>
+    <linearGradient id="side" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#182238"/>
+      <stop offset="1" stop-color="#101724"/>
+    </linearGradient>
+    <linearGradient id="barFill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0c766a"/>
+      <stop offset="1" stop-color="#0c766a" stop-opacity=".55"/>
+    </linearGradient>
+    <linearGradient id="areaFill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e87500" stop-opacity=".22"/>
+      <stop offset="1" stop-color="#e87500" stop-opacity="0"/>
+    </linearGradient>
+    <style>
+      .f    { font-family: Karla, 'Segoe UI', system-ui, sans-serif; }
+      .m    { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+      .nav    { font-size: 12.5px; fill: rgba(255,255,255,.58); }
+      .nav-on { font-size: 12.5px; fill: #ffffff; font-weight: 700; }
+      .kpiLbl { font-size: 10px; fill: rgba(26,36,56,.45); letter-spacing: .08em; }
+      .kpiVal { font-size: 23px; font-weight: 700; fill: #1a2438; }
+      .kpiUnit{ font-size: 11px; fill: rgba(26,36,56,.42); }
+      .cardHd { font-size: 12.5px; font-weight: 700; fill: #1a2438; }
+      .axis   { font-size: 9px; fill: rgba(26,36,56,.38); }
+      .row    { font-size: 11.5px; fill: #1a2438; }
+      .rowSub { font-size: 10px; fill: rgba(26,36,56,.45); }
+    </style>
+  </defs>
+
+  <rect width="1200" height="420" fill="#f4f6f9"/>
+
+  <!-- ══ Sidebar ══ -->
+  <rect width="190" height="420" fill="url(#side)"/>
+  <g>
+    <circle cx="26" cy="29" r="6" fill="#5fb3a6"/>
+    <text class="f" x="42" y="27" font-size="12.5" font-weight="700" fill="#ffffff">EcoStruxure</text>
+    <text class="f" x="42" y="40" font-size="10" fill="rgba(255,255,255,.45)">Energy Hub</text>
+  </g>
+  <rect x="16" y="58" width="158" height="1" fill="rgba(255,255,255,.1)"/>
+
+  <g class="f">
+    <!-- active item -->
+    <rect x="12" y="74" width="166" height="32" rx="7" fill="rgba(95,179,166,.16)"/>
+    <rect x="12" y="74" width="3" height="32" rx="1.5" fill="#5fb3a6"/>
+    <g stroke="#5fb3a6" stroke-width="1.6" fill="none" stroke-linecap="round">
+      <rect x="28" y="84" width="5.5" height="12" rx="1"/><rect x="37" y="88" width="5.5" height="8" rx="1"/>
+    </g>
+    <text class="nav-on" x="54" y="94">Dashboard</text>
+
+    <g stroke="rgba(255,255,255,.45)" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M28 130l7-6 7 6v9h-14z"/>
+    </g>
+    <text class="nav" x="54" y="134">Sites</text>
+
+    <g stroke="rgba(255,255,255,.45)" stroke-width="1.6" fill="none" stroke-linecap="round">
+      <rect x="28" y="164" width="14" height="11" rx="1.5"/><path d="M32 179h6M35 175v4"/>
+    </g>
+    <text class="nav" x="54" y="174">Devices</text>
+
+    <g stroke="rgba(255,255,255,.45)" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M35 203a6 6 0 0 1 6 6v5l2 3H27l2-3v-5a6 6 0 0 1 6-6z"/><path d="M33 220h4"/>
+    </g>
+    <text class="nav" x="54" y="214">Notifications</text>
+    <circle cx="163" cy="209" r="8" fill="#e87500"/>
+    <text class="f" x="160" y="213" font-size="9.5" font-weight="700" fill="#ffffff">3</text>
+
+    <g stroke="rgba(255,255,255,.45)" stroke-width="1.6" fill="none" stroke-linecap="round">
+      <circle cx="33" cy="245" r="3.6"/><path d="M27 256c0-3.3 2.7-6 6-6s6 2.7 6 6"/>
+    </g>
+    <text class="nav" x="54" y="254">Users</text>
+
+    <g stroke="rgba(255,255,255,.45)" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="27" y="283" width="15" height="11" rx="1.5"/><path d="M27 288h15M31 280v3"/>
+    </g>
+    <text class="nav" x="54" y="294">Subscription</text>
+  </g>
+
+  <!-- ══ Top bar ══ -->
+  <rect x="190" y="0" width="1010" height="58" fill="#ffffff"/>
+  <rect x="190" y="57" width="1010" height="1" fill="rgba(20,28,44,.08)"/>
+  <text class="f" x="214" y="27" font-size="15" font-weight="700" fill="#1a2438">Energy overview</text>
+  <text class="f" x="214" y="44" font-size="11" fill="rgba(26,36,56,.45)">All sites · Last 12 months</text>
+
+  <!-- site selector -->
+  <rect x="880" y="16" width="150" height="27" rx="6" fill="#f4f6f9" stroke="rgba(20,28,44,.1)"/>
+  <text class="f" x="894" y="33" font-size="11" fill="#1a2438">Portfolio: 14 sites</text>
+  <path d="M1012 27l4 4 4-4" stroke="#5b6670" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+
+  <!-- export -->
+  <rect x="1044" y="16" width="86" height="27" rx="6" fill="#0c766a"/>
+  <text class="f" x="1062" y="33" font-size="11" font-weight="700" fill="#ffffff">Export</text>
+
+  <!-- ══ KPI tiles ══ -->
+  <g>
+    <g transform="translate(214,78)">
+      <rect width="228" height="80" rx="10" fill="#ffffff" stroke="rgba(20,28,44,.09)"/>
+      <text class="f kpiLbl" x="18" y="26">ENERGY CONSUMED</text>
+      <text class="f kpiVal" x="18" y="54">1,284</text>
+      <text class="f kpiUnit" x="88" y="54">MWh</text>
+      <text class="f" x="18" y="70" font-size="10.5" fill="#0c766a">▼ 8.4% vs last year</text>
+    </g>
+    <g transform="translate(458,78)">
+      <rect width="228" height="80" rx="10" fill="#ffffff" stroke="rgba(20,28,44,.09)"/>
+      <text class="f kpiLbl" x="18" y="26">ENERGY COST</text>
+      <text class="f kpiVal" x="18" y="54">₹1.04</text>
+      <text class="f kpiUnit" x="86" y="54">Cr</text>
+      <text class="f" x="18" y="70" font-size="10.5" fill="#0c766a">▼ 6.1% vs last year</text>
+    </g>
+    <g transform="translate(702,78)">
+      <rect width="228" height="80" rx="10" fill="#ffffff" stroke="rgba(20,28,44,.09)"/>
+      <text class="f kpiLbl" x="18" y="26">PEAK DEMAND</text>
+      <text class="f kpiVal" x="18" y="54">3,610</text>
+      <text class="f kpiUnit" x="88" y="54">kVA</text>
+      <text class="f" x="18" y="70" font-size="10.5" fill="#e87500">▲ 2.2% vs last month</text>
+    </g>
+    <g transform="translate(946,78)">
+      <rect width="228" height="80" rx="10" fill="#ffffff" stroke="rgba(20,28,44,.09)"/>
+      <text class="f kpiLbl" x="18" y="26">ACTIVE ALARMS</text>
+      <text class="f kpiVal" x="18" y="54" fill="#e87500">3</text>
+      <text class="f kpiUnit" x="34" y="54">of 412 devices</text>
+      <text class="f" x="18" y="70" font-size="10.5" fill="rgba(26,36,56,.45)">1 critical · 2 warnings</text>
+    </g>
+  </g>
+
+  <!-- ══ Trend chart ══ -->
+  <g transform="translate(214,174)">
+    <rect width="600" height="226" rx="10" fill="#ffffff" stroke="rgba(20,28,44,.09)"/>
+    <text class="f cardHd" x="20" y="30">Consumption trend</text>
+    <g class="f">
+      <rect x="452" y="18" width="10" height="10" rx="2" fill="#0c766a"/>
+      <text x="468" y="27" font-size="10" fill="rgba(26,36,56,.5)">kWh</text>
+      <rect x="506" y="18" width="10" height="10" rx="2" fill="#e87500"/>
+      <text x="522" y="27" font-size="10" fill="rgba(26,36,56,.5)">Cost index</text>
+    </g>
+
+    <!-- gridlines -->
+    <g stroke="rgba(20,28,44,.07)" stroke-width="1">
+      <path d="M52 60h532"/><path d="M52 95h532"/><path d="M52 130h532"/><path d="M52 165h532"/>
+    </g>
+    <g class="f axis">
+      <text x="20" y="63">160</text><text x="20" y="98">120</text><text x="20" y="133">80</text><text x="20" y="168">40</text>
+    </g>
+    <path d="M52 186h532" stroke="rgba(20,28,44,.14)" stroke-width="1"/>
+
+    <!-- bars -->
+    <g fill="url(#barFill)">
+      <rect x="62"  y="118" width="26" height="68" rx="3"/>
+      <rect x="106" y="104" width="26" height="82" rx="3"/>
+      <rect x="150" y="86"  width="26" height="100" rx="3"/>
+      <rect x="194" y="72"  width="26" height="114" rx="3"/>
+      <rect x="238" y="62"  width="26" height="124" rx="3"/>
+      <rect x="282" y="76"  width="26" height="110" rx="3"/>
+      <rect x="326" y="94"  width="26" height="92" rx="3"/>
+      <rect x="370" y="110" width="26" height="76" rx="3"/>
+      <rect x="414" y="126" width="26" height="60" rx="3"/>
+      <rect x="458" y="116" width="26" height="70" rx="3"/>
+      <rect x="502" y="100" width="26" height="86" rx="3"/>
+      <rect x="546" y="112" width="26" height="74" rx="3"/>
+    </g>
+
+    <!-- cost index area + line -->
+    <path d="M75 132 L119 122 L163 108 L207 96 L251 88 L295 100 L339 112 L383 124 L427 138 L471 128 L515 114 L559 126 L559 186 L75 186 Z" fill="url(#areaFill)"/>
+    <path d="M75 132 L119 122 L163 108 L207 96 L251 88 L295 100 L339 112 L383 124 L427 138 L471 128 L515 114 L559 126"
+          fill="none" stroke="#e87500" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <g fill="#ffffff" stroke="#e87500" stroke-width="1.8">
+      <circle cx="251" cy="88" r="3.4"/><circle cx="427" cy="138" r="3.4"/>
+    </g>
+
+    <g class="f axis">
+      <text x="68" y="202">Jan</text><text x="112" y="202">Feb</text><text x="156" y="202">Mar</text>
+      <text x="200" y="202">Apr</text><text x="246" y="202">May</text><text x="290" y="202">Jun</text>
+      <text x="336" y="202">Jul</text><text x="378" y="202">Aug</text><text x="422" y="202">Sep</text>
+      <text x="466" y="202">Oct</text><text x="510" y="202">Nov</text><text x="554" y="202">Dec</text>
+    </g>
+  </g>
+
+  <!-- ══ Site status ══ -->
+  <g transform="translate(830,174)">
+    <rect width="346" height="105" rx="10" fill="#ffffff" stroke="rgba(20,28,44,.09)"/>
+    <text class="f cardHd" x="18" y="28">Site status</text>
+    <text class="f" x="286" y="28" font-size="10.5" fill="#0c766a">View all</text>
+
+    <g class="f">
+      <circle cx="24" cy="50" r="4" fill="#0c766a"/>
+      <text class="row" x="38" y="53">Bengaluru — Plant 1</text>
+      <text class="rowSub" x="256" y="53">96 devices</text>
+
+      <circle cx="24" cy="72" r="4" fill="#0c766a"/>
+      <text class="row" x="38" y="75">Pune — Campus A</text>
+      <text class="rowSub" x="256" y="75">148 devices</text>
+
+      <circle cx="24" cy="94" r="4" fill="#e87500"/>
+      <text class="row" x="38" y="97">Chennai — Warehouse</text>
+      <text class="rowSub" x="256" y="97">62 devices</text>
+    </g>
+  </g>
+
+  <!-- ══ Alarms ══ -->
+  <g transform="translate(830,295)">
+    <rect width="346" height="105" rx="10" fill="#ffffff" stroke="rgba(20,28,44,.09)"/>
+    <text class="f cardHd" x="18" y="28">Recent alarms</text>
+
+    <rect x="18" y="38" width="310" height="28" rx="6" fill="rgba(240,169,61,.14)"/>
+    <path d="M32 46l6 11H26z" fill="none" stroke="#e87500" stroke-width="1.5" stroke-linejoin="round"/>
+    <text class="f" x="46" y="52" font-size="11" font-weight="600" fill="#1a2438">Power factor below threshold</text>
+    <text class="f" x="46" y="62" font-size="9.5" fill="rgba(26,36,56,.5)">Chennai — Warehouse · 14 min ago</text>
+
+    <rect x="18" y="70" width="310" height="28" rx="6" fill="#f4f6f9"/>
+    <path d="M32 78l6 11H26z" fill="none" stroke="#5b6670" stroke-width="1.5" stroke-linejoin="round"/>
+    <text class="f" x="46" y="84" font-size="11" font-weight="600" fill="#1a2438">Unusual overnight consumption</text>
+    <text class="f" x="46" y="94" font-size="9.5" fill="rgba(26,36,56,.5)">Pune — Campus A · 2 h ago</text>
+  </g>
+</svg>

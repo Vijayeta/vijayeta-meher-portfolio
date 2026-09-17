@@ -1,15 +1,13 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
+import {
+  CaseNav, CaseHeader, CaseMain, CaseSection, CaseCTA, GlanceCard,
+  H2, H3, Lede, DataTable, KeyCard, Callout, Flow, Metric, ProductShot, mono,
+} from '@/components/case'
 
 export const metadata: Metadata = {
   title: 'EnergySense AI — Vijayeta Meher',
   description: "Democratising energy management for India's commercial buildings.",
 }
-
-const A = '#0c766a'
-const SEC = '1px solid rgba(15,20,23,.09)'
-const ROW = '1px solid rgba(15,20,23,.07)'
-const mono = 'var(--font-mono)'
 
 // ── Data ──────────────────────────────────────────────────
 
@@ -109,500 +107,449 @@ const SYNTHESIS = [
   { constraint: 'Solo PM operating without a QA team', outcome: 'Built the automated evalAndFix retry loop and the 15-point CI regression suite to self-enforce the quality contract.' },
 ]
 
-// ── Shared primitives ─────────────────────────────────────
+const LEADING = ['Upload activation (% reaching the dashboard)', 'Chat engagement rate', 'Recommendation-card click-through rate', 'Time-to-first-chat after upload']
+const LAGGING = ['Repeat upload rate (MoM retention)', 'Self-reported energy cost reduction']
+const OPERATIONAL = ['Response latency', 'Token cost per query (~$0.005 measured)', 'API error rate']
 
-function SL({ n, label }: { n: string; label: string }) {
-  return (
-    <div style={{ display: 'flex', alignItems: 'baseline', gap: 16, marginBottom: 12 }}>
-      <span style={{ fontFamily: mono, fontSize: 13, color: A }}>{n}</span>
-      <span style={{ fontFamily: mono, fontSize: 11, letterSpacing: '.16em', color: '#99a1a7' }}>{label}</span>
-    </div>
-  )
-}
+const ROADMAP = [
+  { k: 'NOW',   v: 'CI hardening · Energy Intensity KPI (kWh/sq ft)' },
+  { k: 'NEXT',  v: 'Multi-building portfolio RAG · Redis rate limiting' },
+  { k: 'LATER', v: 'Live IoT integration · Predictive maintenance' },
+]
 
-function H2({ children, maxW = '24ch', mb = 28 }: { children: React.ReactNode; maxW?: string; mb?: number }) {
-  return (
-    <h2 style={{ margin: `0 0 ${mb}px`, fontSize: 'clamp(24px,3.2vw,40px)', fontWeight: 600, letterSpacing: '-.03em', lineHeight: 1.1, maxWidth: maxW }}>
-      {children}
-    </h2>
-  )
-}
-
-function THead({ cols, widths }: { cols: string[]; widths: string }) {
-  return (
-    <div style={{ display: 'grid', gridTemplateColumns: widths, borderBottom: SEC, fontFamily: mono, fontSize: 10, letterSpacing: '.1em', color: '#99a1a7' }}>
-      {cols.map((c, i) => (
-        <span key={i} style={{ padding: '9px 14px', borderLeft: i > 0 ? SEC : undefined }}>{c}</span>
-      ))}
-    </div>
-  )
-}
-
-const W = { maxWidth: 1200, margin: '0 auto', padding: '0 40px' }
-const S = { padding: '68px 0', borderBottom: '1px solid rgba(15,20,23,.08)' }
+const sub = { fontFamily: mono, fontSize: 11, fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase' as const, color: 'var(--ink-faint)', marginBottom: 14, display: 'block' }
 
 // ── Page ──────────────────────────────────────────────────
 
 export default function EnergySensePage() {
   return (
     <>
-      <nav className="es-nav" style={{
-        position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50,
-        height: 52, display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        padding: '0 40px',
-        background: 'rgba(255,255,255,.86)', backdropFilter: 'blur(14px)', WebkitBackdropFilter: 'blur(14px)',
-        borderBottom: '1px solid rgba(15,20,23,.08)',
-      }}>
-        <Link href="/#cases" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', color: '#0f1417' }}>
-          <span style={{ fontFamily: mono, fontSize: 13, color: A }}>←</span>
-          <span style={{ fontWeight: 600, letterSpacing: '.04em', fontSize: 14 }}>VIJAYETA MEHER</span>
-        </Link>
-        <span className="es-hide-sm" style={{ fontFamily: mono, fontSize: 11, letterSpacing: '.1em', color: '#99a1a7' }}>AI LAB · CASE STUDY 01</span>
-      </nav>
+      <CaseNav label="AI Lab · Case study 01" />
 
-      <main style={{ paddingTop: 52 }}>
+      <CaseHeader
+        eyebrow="AI Lab · Case study 01"
+        title="EnergySense AI"
+        subtitle="Democratising energy management for India's commercial buildings."
+        lede="Empowering every facility manager to make energy optimisation decisions with the speed and intelligence of an expert energy consultant — no hardware, no six-figure retainer."
+        links={
+          <>
+            <a href="https://energysense-ai.vercel.app" target="_blank" rel="noopener noreferrer" className="btn">
+              Live app →
+            </a>
+            {/* FILL: replace href="#" with Loom/YouTube demo URL when recorded */}
+            <a href="#" className="btn-outline btn-ghost-light">90-sec demo →</a>
+          </>
+        }
+      />
 
-        {/* ── HEADER ── */}
-        <header className="es-header" style={{ position: 'relative', padding: '96px 40px 56px', borderBottom: '1px solid rgba(15,20,23,.08)' }}>
-          <div style={{
-            position: 'absolute', inset: 0,
-            backgroundImage: 'linear-gradient(rgba(15,20,23,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(15,20,23,.045) 1px,transparent 1px)',
-            backgroundSize: '62px 62px',
-            WebkitMaskImage: 'radial-gradient(ellipse 70% 65% at 20% 20%,#000 30%,transparent 76%)',
-            maskImage: 'radial-gradient(ellipse 70% 65% at 20% 20%,#000 30%,transparent 76%)',
-          }} />
-          <div style={{ position: 'relative', maxWidth: 1200, margin: '0 auto' }}>
-            <div style={{ fontFamily: mono, fontSize: 12, letterSpacing: '.18em', color: A, marginBottom: 18 }}>AI LAB · CASE STUDY 01</div>
-            <h1 style={{ margin: 0, fontSize: 'clamp(34px,5.6vw,72px)', fontWeight: 600, lineHeight: .98, letterSpacing: '-.03em', maxWidth: '16ch' }}>EnergySense AI</h1>
-            <p style={{ margin: '14px 0 0', fontSize: 'clamp(16px,1.8vw,22px)', fontWeight: 500, color: '#2c343a', maxWidth: '26ch' }}>
-              Democratising energy management for India&apos;s commercial buildings.
-            </p>
-            <p style={{ margin: '16px 0 0', maxWidth: '64ch', fontSize: 15, lineHeight: 1.6, color: '#4b5660' }}>
-              Empowering every facility manager to make energy optimisation decisions with the speed and intelligence of an expert energy consultant — no hardware, no six-figure retainer.
-            </p>
-            <div className="es-links" style={{ display: 'flex', gap: 12, marginTop: 20, marginBottom: 36 }}>
-              <a href="https://energysense-ai.vercel.app" target="_blank" rel="noopener noreferrer"
-                style={{ fontFamily: mono, fontSize: 12, letterSpacing: '.06em', padding: '9px 18px', color: '#fff', background: A, textDecoration: 'none' }}>
-                Live app →
-              </a>
-              {/* FILL: replace href="#" with Loom/YouTube demo URL when recorded */}
-              <a href="#"
-                style={{ fontFamily: mono, fontSize: 12, letterSpacing: '.06em', padding: '9px 18px', color: '#2c343a', border: '1px solid rgba(15,20,23,.18)', textDecoration: 'none' }}>
-                90-sec demo →
-              </a>
-            </div>
-            <div style={{ border: SEC, background: '#fff', maxWidth: 820 }}>
-              <div style={{ padding: '8px 18px', borderBottom: SEC, fontFamily: mono, fontSize: 10, letterSpacing: '.14em', color: '#99a1a7' }}>AT A GLANCE</div>
-              {GLANCE.map((g, i) => (
-                <div key={g.k} className="es-glance" style={{ display: 'grid', gridTemplateColumns: '200px 1fr', gap: 16, padding: '10px 18px', borderBottom: i < GLANCE.length - 1 ? '1px solid rgba(15,20,23,.06)' : undefined }}>
-                  <span style={{ fontFamily: mono, fontSize: 11, color: A }}>{g.k}</span>
-                  <span style={{ fontSize: 13, lineHeight: 1.5, color: '#2c343a' }}>{g.v}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </header>
+      <CaseMain>
+        <GlanceCard rows={GLANCE} />
+
+        <ProductShot
+          src="/covers/energysense.webp"
+          width={2400}
+          height={1367}
+          alt="EnergySense AI at the upload step: the headline 'Turn Utility Bills into Energy Intelligence', trust chips for no signup, secure upload, 60-second analysis and CSV compatibility, and a card showing the captured building context — Prestige Tech Park Block A, Office, 25,000 sq ft — above a dashed drop zone reading 'Drop your CSV here, or browse'."
+          caption="The upload step, captured from the live app. Building context is captured first, because floor area and building type are what turn a raw kWh figure into a benchmark — and the drop zone accepts any CSV or Excel export, which is what removes the hardware dependency."
+        />
 
         {/* ── 01 THE PROBLEM ── */}
-        <section className="es-s" style={S}>
-          <div className="es-w" style={W}>
-            <SL n="01" label="THE PROBLEM" />
-            <H2 maxW="20ch" mb={14}>A translation problem, not a data problem.</H2>
-            <p style={{ margin: '0 0 28px', maxWidth: '66ch', fontSize: 15, lineHeight: 1.6, color: '#4b5660' }}>
-              Facility managers know their bills are high, but lack the tools to identify why. EnergySense AI uses large language models to translate raw utility data into plain-English actions — without expensive consultants or hardware lock-in.
-            </p>
-            <div className="es-grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1, background: 'rgba(15,20,23,.09)', border: SEC }}>
-              <div style={{ background: '#fff', padding: '28px 24px' }}>
-                <div style={{ fontFamily: mono, fontSize: 11, color: '#99a1a7', letterSpacing: '.1em', marginBottom: 12 }}>THE 5%</div>
-                <div style={{ fontSize: 'clamp(38px,4.5vw,60px)', fontWeight: 600, letterSpacing: '-.03em', color: '#0f1417', lineHeight: 1 }}>5%</div>
-                <p style={{ margin: '14px 0 0', fontSize: 13.5, lineHeight: 1.6, color: '#5b6670' }}>Large enterprises with six-figure hardware budgets and dedicated implementation teams — served today by tools like Schneider Electric&apos;s EcoStruxure.</p>
-              </div>
-              <div style={{ background: '#fff', padding: '28px 24px' }}>
-                <div style={{ fontFamily: mono, fontSize: 11, color: A, letterSpacing: '.1em', marginBottom: 12 }}>THE 95%</div>
-                <div style={{ fontSize: 'clamp(38px,4.5vw,60px)', fontWeight: 600, letterSpacing: '-.03em', color: A, lineHeight: 1 }}>95%</div>
-                <p style={{ margin: '14px 0 0', fontSize: 13.5, lineHeight: 1.6, color: '#5b6670' }}>Over 5 million Indian commercial buildings, forced to decode DISCOM PDFs and spreadsheets by hand, once a quarter.</p>
-              </div>
+        <CaseSection n="01" label="The problem">
+          <H2 maxW="20ch" mb={14}>A translation problem, not a data problem.</H2>
+          <Lede>
+            Facility managers know their bills are high, but lack the tools to identify why. EnergySense AI uses large
+            language models to translate raw utility data into plain-English actions — without expensive consultants or
+            hardware lock-in.
+          </Lede>
+
+          <div className="cs-grid-2" style={{ display: 'grid', gap: 16 }}>
+            <div style={{ border: '1px solid var(--card-border)', borderRadius: 'var(--radius-tile)', padding: '24px 22px' }}>
+              <span style={sub}>The 5%</span>
+              <div style={{ fontFamily: mono, fontSize: 'clamp(34px,4.2vw,50px)', fontWeight: 600, color: 'var(--ink)', lineHeight: 1 }}>5%</div>
+              <p style={{ margin: '14px 0 0', fontSize: 14, lineHeight: 1.6, color: 'var(--ink-soft)' }}>
+                Large enterprises with six-figure hardware budgets and dedicated implementation teams — served today by
+                tools like Schneider Electric&apos;s EcoStruxure.
+              </p>
+            </div>
+
+            <div style={{ border: '1px solid var(--accent-tint-border)', background: 'var(--accent-tint)', borderRadius: 'var(--radius-tile)', padding: '24px 22px' }}>
+              <span style={{ ...sub, color: 'var(--accent)' }}>The 95%</span>
+              <div style={{ fontFamily: mono, fontSize: 'clamp(34px,4.2vw,50px)', fontWeight: 600, color: 'var(--accent)', lineHeight: 1 }}>95%</div>
+              <p style={{ margin: '14px 0 0', fontSize: 14, lineHeight: 1.6, color: 'var(--ink-soft)' }}>
+                Over 5 million Indian commercial buildings, forced to decode DISCOM PDFs and spreadsheets by hand, once
+                a quarter.
+              </p>
             </div>
           </div>
-        </section>
+        </CaseSection>
 
         {/* ── 02 CUSTOMER DISCOVERY ── */}
-        <section className="es-s" style={S}>
-          <div className="es-w" style={W}>
-            <SL n="02" label="CUSTOMER DISCOVERY" />
-            <H2 maxW="22ch" mb={14}>Validated before it was built, not after.</H2>
-            <p style={{ margin: '0 0 28px', maxWidth: '66ch', fontSize: 15, lineHeight: 1.6, color: '#4b5660' }}>
-              Insights drawn from 18 conversations with energy and facility professionals, supplemented by desk research grounded in 13 years of hands-on energy management.
-            </p>
-            <div className="es-table-scroll" style={{ marginBottom: 24 }}>
-              <div className="es-table" style={{ border: SEC }}>
-                <THead cols={['ROLE INTERVIEWED', 'COUNT', 'PRIMARY GOAL']} widths="1.3fr .6fr 1.7fr" />
-                {INTERVIEWS.map((iv, i) => (
-                  <div key={i} style={{ display: 'grid', gridTemplateColumns: '1.3fr .6fr 1.7fr', borderBottom: i < INTERVIEWS.length - 1 ? ROW : undefined }}>
-                    <span style={{ padding: '11px 14px', fontSize: 13.5, fontWeight: 600, color: '#0f1417' }}>{iv.role}</span>
-                    <span style={{ padding: '11px 14px', borderLeft: ROW, fontFamily: mono, fontSize: 13, color: A }}>{iv.count}</span>
-                    <span style={{ padding: '11px 14px', borderLeft: ROW, fontSize: 13, color: '#4b5660' }}>{iv.goal}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="es-grid-2" style={{ display: 'grid', gridTemplateColumns: '1.1fr 1fr', gap: 1, background: 'rgba(15,20,23,.09)', border: SEC }}>
-              <div style={{ background: '#fff', padding: '22px 24px' }}>
-                <div style={{ fontFamily: mono, fontSize: 11, letterSpacing: '.1em', color: '#99a1a7', marginBottom: 14 }}>TOP PAIN POINTS</div>
-                <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: 10 }}>
-                  {PAIN_POINTS.map((p, i) => (
-                    <li key={i} style={{ display: 'flex', gap: 10, alignItems: 'baseline', fontSize: 13.5, lineHeight: 1.5, color: '#2c343a' }}>
-                      <span style={{ width: 6, height: 6, background: '#c05c2a', flexShrink: 0, display: 'inline-block', transform: 'translateY(-1px)' }} />
-                      <span>{p}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div style={{ background: '#fff', padding: '22px 24px', borderLeft: SEC }}>
-                <div style={{ fontFamily: mono, fontSize: 11, letterSpacing: '.1em', color: A, marginBottom: 14 }}>OPPORTUNITY STATEMENT</div>
-                <p style={{ margin: '0 0 14px', fontSize: 15, lineHeight: 1.6, color: '#0f1417', fontWeight: 500 }}>Enterprise energy teams need an AI assistant that explains why energy consumption changed, recommends corrective actions, and automates repetitive analysis.</p>
-                <p style={{ margin: 0, fontSize: 13, lineHeight: 1.5, color: '#6b757d', fontStyle: 'italic' }}>The archetypal user: a facility manager overseeing 15+ buildings with zero data-science support.</p>
-              </div>
-            </div>
+        <CaseSection n="02" label="Customer discovery">
+          <H2 maxW="22ch" mb={14}>Validated before it was built, not after.</H2>
+          <Lede>
+            Insights drawn from 18 conversations with energy and facility professionals, supplemented by desk research
+            grounded in 13 years of hands-on energy management.
+          </Lede>
+
+          <div style={{ marginBottom: 24 }}>
+            <DataTable
+              cols={['Role interviewed', 'Count', 'Primary goal']}
+              widths="1.3fr .6fr 1.7fr"
+              colStyles={[
+                { fontWeight: 700, color: 'var(--ink)' },
+                { fontFamily: mono, color: 'var(--accent)', fontWeight: 600 },
+                undefined,
+              ]}
+              rows={INTERVIEWS.map(iv => [iv.role, String(iv.count), iv.goal])}
+            />
           </div>
-        </section>
+
+          <div className="cs-grid-2" style={{ display: 'grid', gap: 16 }}>
+            <div style={{ border: '1px solid var(--card-border)', borderRadius: 'var(--radius-tile)', padding: '20px 22px' }}>
+              <span style={sub}>Top pain points</span>
+              <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: 10 }}>
+                {PAIN_POINTS.map((p, i) => (
+                  <li key={i} style={{ display: 'flex', gap: 10, alignItems: 'baseline', fontSize: 14, lineHeight: 1.55, color: 'var(--ink-soft)' }}>
+                    <span style={{ width: 6, height: 6, borderRadius: 2, background: 'var(--warm)', flexShrink: 0, display: 'inline-block' }} />
+                    <span>{p}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <Callout label="Opportunity statement">
+              <span style={{ display: 'block', fontWeight: 600, marginBottom: 12 }}>
+                Enterprise energy teams need an AI assistant that explains why energy consumption changed, recommends
+                corrective actions, and automates repetitive analysis.
+              </span>
+              <span style={{ display: 'block', fontSize: 13.5, color: 'var(--ink-soft)', fontStyle: 'italic' }}>
+                The archetypal user: a facility manager overseeing 15+ buildings with zero data-science support.
+              </span>
+            </Callout>
+          </div>
+        </CaseSection>
 
         {/* ── 03 JOBS TO BE DONE ── */}
-        <section className="es-s" style={S}>
-          <div className="es-w" style={W}>
-            <SL n="03" label="JOBS TO BE DONE" />
-            <H2 maxW="24ch">What customers hire EnergySense AI to do.</H2>
-            <div className="es-table-scroll">
-              <div className="es-table" style={{ border: SEC }}>
-                <THead cols={['WHEN...', 'I WANT TO...', 'SO I CAN...']} widths="1.3fr 1.4fr 1.3fr" />
-                {JTBD.map((j, i) => (
-                  <div key={i} style={{ display: 'grid', gridTemplateColumns: '1.3fr 1.4fr 1.3fr', borderBottom: i < JTBD.length - 1 ? ROW : undefined }}>
-                    <span style={{ padding: '11px 14px', fontSize: 13, color: '#2c343a' }}>{j.when}</span>
-                    <span style={{ padding: '11px 14px', borderLeft: ROW, fontSize: 13, fontWeight: 600, color: '#0f1417' }}>{j.want}</span>
-                    <span style={{ padding: '11px 14px', borderLeft: ROW, fontSize: 13, color: '#6b757d' }}>{j.so}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
+        <CaseSection n="03" label="Jobs to be done">
+          <H2 maxW="24ch">What customers hire EnergySense AI to do.</H2>
+          <DataTable
+            cols={['When…', 'I want to…', 'So I can…']}
+            widths="1.3fr 1.4fr 1.3fr"
+            colStyles={[undefined, { fontWeight: 700, color: 'var(--ink)' }, undefined]}
+            rows={JTBD.map(j => [j.when, j.want, j.so])}
+          />
+        </CaseSection>
 
         {/* ── 04 STRATEGY & POSITIONING ── */}
-        <section className="es-s" style={S}>
-          <div className="es-w" style={W}>
-            <SL n="04" label="STRATEGY & POSITIONING" />
-            <H2 maxW="26ch">Four strategic bets and why they beat the enterprise benchmark.</H2>
-            <div className="es-grid-4" style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 1, background: 'rgba(15,20,23,.09)', border: SEC, marginBottom: 28 }}>
-              {BETS.map(b => (
-                <div key={b.k} style={{ background: '#fff', padding: '20px 18px' }}>
-                  <div style={{ fontFamily: mono, fontSize: 12, color: A, marginBottom: 14 }}>{b.k}</div>
-                  <div style={{ fontSize: 15, fontWeight: 600, letterSpacing: '-.01em', marginBottom: 10, lineHeight: 1.25, color: '#0f1417' }}>{b.t}</div>
-                  <div style={{ fontSize: 13, lineHeight: 1.55, color: '#5b6670' }}>{b.d}</div>
-                </div>
-              ))}
-            </div>
-            <div style={{ fontFamily: mono, fontSize: 11, letterSpacing: '.1em', color: '#99a1a7', marginBottom: 14 }}>VS. THE BENCHMARK</div>
-            <div className="es-table-scroll">
-              <div className="es-table" style={{ border: SEC }}>
-                <THead cols={['', 'ECOSTRUXURE ENERGY HUB (BENCHMARK)', 'ENERGYSENSE AI (SME)']} widths="1.4fr 1.6fr 1.6fr" />
-                {POSITIONING.map((p, i) => (
-                  <div key={i} style={{ display: 'grid', gridTemplateColumns: '1.4fr 1.6fr 1.6fr', borderBottom: i < POSITIONING.length - 1 ? ROW : undefined }}>
-                    <span style={{ padding: '11px 14px', fontSize: 13, fontWeight: 600, color: '#0f1417' }}>{p.row}</span>
-                    <span style={{ padding: '11px 14px', borderLeft: ROW, fontSize: 13, color: '#6b757d' }}>{p.bench}</span>
-                    <span style={{ padding: '11px 14px', borderLeft: ROW, fontSize: 13, color: '#2c343a', fontWeight: 500 }}>{p.es}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div style={{ marginTop: 1, border: SEC, borderTop: 'none', padding: '14px 18px', background: '#f5f7f7' }}>
-              <span style={{ fontWeight: 600, color: '#0f1417', fontSize: 13.5 }}>The unfair advantage: </span>
-              <span style={{ color: '#4b5660', fontSize: 13.5, lineHeight: 1.6 }}>EnergySense is seeded with India-specific energy standards — power factor regulations, BEE ratings, DISCOM tariff structures — that Western enterprise tools lack.</span>
-            </div>
+        <CaseSection n="04" label="Strategy & positioning">
+          <H2 maxW="26ch">Four strategic bets and why they beat the enterprise benchmark.</H2>
+
+          <div className="cs-grid-4" style={{ display: 'grid', gap: 16, marginBottom: 28 }}>
+            {BETS.map(b => <KeyCard key={b.k} k={b.k} t={b.t} d={b.d} />)}
           </div>
-        </section>
+
+          <span style={sub}>Vs. the benchmark</span>
+          <DataTable
+            cols={['', 'EcoStruxure Energy Hub (benchmark)', 'EnergySense AI (SME)']}
+            widths="1.4fr 1.6fr 1.6fr"
+            colStyles={[
+              { fontWeight: 700, color: 'var(--ink)' },
+              undefined,
+              { color: 'var(--accent)', fontWeight: 600 },
+            ]}
+            rows={POSITIONING.map(p => [p.row, p.bench, p.es])}
+          />
+
+          <div style={{ marginTop: 16 }}>
+            <Callout label="The unfair advantage">
+              EnergySense is seeded with India-specific energy standards — power factor regulations, BEE ratings, DISCOM
+              tariff structures — that Western enterprise tools lack.
+            </Callout>
+          </div>
+        </CaseSection>
 
         {/* ── 05 PRIORITIZATION ── */}
-        <section className="es-s" style={S}>
-          <div className="es-w" style={W}>
-            <SL n="05" label="PRIORITIZATION — WHAT SHIPPED, WHAT DIDN'T" />
-            <H2 maxW="26ch" mb={14}>RICE sequenced the roadmap. Strategy governed where it was headed.</H2>
-            <p style={{ margin: '0 0 24px', maxWidth: '70ch', fontSize: 15, lineHeight: 1.6, color: '#4b5660' }}>
-              RICE correctly sequenced the roadmap — dashboard and reports shipped first because they were high-confidence, low-effort. AI Chat scored lower precisely because its confidence was unproven, so it shipped in Phase 1.5 after the data pipeline de-risked it. The framework governed sequencing; Bet 04 governed direction.
-            </p>
-            <div className="es-table-scroll" style={{ marginBottom: 24 }}>
-              <div className="es-table-wide" style={{ border: SEC }}>
-                <THead cols={['FEATURE', 'REACH', 'IMPACT (0.25–3)', 'CONFIDENCE', 'EFFORT', 'RICE SCORE']} widths="1.6fr 1fr .9fr .9fr .9fr .8fr" />
-                {RICE.map((rc, i) => (
-                  <div key={i} style={{ display: 'grid', gridTemplateColumns: '1.6fr 1fr .9fr .9fr .9fr .8fr', borderBottom: i < RICE.length - 1 ? ROW : undefined }}>
-                    <span style={{ padding: '11px 14px', fontSize: 13.5, fontWeight: 600, color: '#0f1417' }}>{rc.feature}</span>
-                    <span style={{ padding: '11px 14px', borderLeft: ROW, fontSize: 12.5, color: '#6b757d' }}>{rc.reach}</span>
-                    <span style={{ padding: '11px 14px', borderLeft: ROW, fontSize: 12.5, color: '#6b757d' }}>{rc.impact}</span>
-                    <span style={{ padding: '11px 14px', borderLeft: ROW, fontSize: 12.5, color: '#6b757d' }}>{rc.confidence}</span>
-                    <span style={{ padding: '11px 14px', borderLeft: ROW, fontSize: 12.5, color: '#6b757d' }}>{rc.effort}</span>
-                    <span style={{ padding: '11px 14px', borderLeft: ROW, fontFamily: mono, fontSize: 13.5, fontWeight: 600, color: A }}>{rc.score}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div style={{ fontFamily: mono, fontSize: 11, letterSpacing: '.1em', color: '#99a1a7', marginBottom: 14 }}>CUT FROM V1</div>
-            <div style={{ border: SEC }}>
-              <THead cols={['FEATURE', 'WHY REJECTED']} widths="1fr 1.8fr" />
-              {FEATURES_REJECTED.map((r, i) => (
-                <div key={i} style={{ display: 'grid', gridTemplateColumns: '1fr 1.8fr', borderBottom: i < FEATURES_REJECTED.length - 1 ? ROW : undefined }}>
-                  <span style={{ padding: '11px 14px', fontSize: 13.5, fontWeight: 600, color: '#0f1417' }}>{r.feature}</span>
-                  <span style={{ padding: '11px 14px', borderLeft: ROW, fontSize: 13, color: '#6b757d' }}>{r.why}</span>
-                </div>
-              ))}
-            </div>
+        <CaseSection n="05" label="Prioritization — what shipped, what didn't">
+          <H2 maxW="26ch" mb={14}>RICE sequenced the roadmap. Strategy governed where it was headed.</H2>
+          <Lede maxW="74ch">
+            RICE correctly sequenced the roadmap — dashboard and reports shipped first because they were
+            high-confidence, low-effort. AI Chat scored lower precisely because its confidence was unproven, so it
+            shipped in Phase 1.5 after the data pipeline de-risked it. The framework governed sequencing; Bet 04
+            governed direction.
+          </Lede>
+
+          <div style={{ marginBottom: 28 }}>
+            <DataTable
+              wide
+              cols={['Feature', 'Reach', 'Impact (0.25–3)', 'Confidence', 'Effort', 'RICE score']}
+              widths="1.6fr 1fr .9fr .9fr .9fr .8fr"
+              colStyles={[
+                { fontWeight: 700, color: 'var(--ink)' },
+                undefined, undefined, undefined, undefined,
+                { fontFamily: mono, fontWeight: 600, color: 'var(--accent)' },
+              ]}
+              rows={RICE.map(rc => [rc.feature, rc.reach, rc.impact, rc.confidence, rc.effort, String(rc.score)])}
+            />
           </div>
-        </section>
+
+          <span style={sub}>Cut from v1</span>
+          <DataTable
+            cols={['Feature', 'Why rejected']}
+            widths="1fr 1.8fr"
+            colStyles={[{ fontWeight: 700, color: 'var(--ink)' }, undefined]}
+            rows={FEATURES_REJECTED.map(r => [r.feature, r.why])}
+          />
+        </CaseSection>
 
         {/* ── 06 ARCHITECTURE ── */}
-        <section className="es-s" style={S}>
-          <div className="es-w" style={W}>
-            <SL n="06" label="ARCHITECTURE" />
-            <H2 maxW="26ch">A dual-flow architecture built around user value and cost efficiency.</H2>
-            <div style={{ marginBottom: 22 }}>
-              <div style={{ fontFamily: mono, fontSize: 11, letterSpacing: '.1em', color: A, marginBottom: 12 }}>FLOW 1 — UPLOAD ANALYSIS</div>
-              <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 8 }}>
-                {['UI Upload', 'Vercel Backend', null, 'Structured JSON DB'].map((node, i) =>
-                  node === null
-                    ? <span key={i} style={{ fontFamily: mono, fontSize: 12, border: `1px solid rgba(12,118,106,.3)`, padding: '7px 12px', color: A }}>Claude Sonnet 4.6</span>
-                    : <span key={i} style={{ fontFamily: mono, fontSize: 12, border: '1px solid rgba(15,20,23,.14)', padding: '7px 12px', color: '#2c343a' }}>{node}</span>
-                ).reduce<React.ReactNode[]>((acc, el, i) => i === 0 ? [el] : [...acc, <span key={`a${i}`} style={{ color: '#99a1a7' }}>→</span>, el], [])}
-              </div>
-              <p style={{ margin: '10px 0 0', fontSize: 13, color: '#6b757d', maxWidth: '60ch' }}>A single API call handles both structured JSON parsing and natural-language generation.</p>
-            </div>
-            <div style={{ marginBottom: 22 }}>
-              <div style={{ fontFamily: mono, fontSize: 11, letterSpacing: '.1em', color: A, marginBottom: 12 }}>FLOW 2 — RAG CHAT</div>
-              <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 8 }}>
-                {['User Query', 'Voyage AI Embeddings', 'Supabase pgvector', 'Context Injection', null].map((node, i) =>
-                  node === null
-                    ? <span key={i} style={{ fontFamily: mono, fontSize: 12, border: `1px solid rgba(12,118,106,.3)`, padding: '7px 12px', color: A }}>Claude API</span>
-                    : <span key={i} style={{ fontFamily: mono, fontSize: 12, border: '1px solid rgba(15,20,23,.14)', padding: '7px 12px', color: '#2c343a' }}>{node}</span>
-                ).reduce<React.ReactNode[]>((acc, el, i) => i === 0 ? [el] : [...acc, <span key={`a${i}`} style={{ color: '#99a1a7' }}>→</span>, el], [])}
-              </div>
-              <p style={{ margin: '10px 0 0', fontSize: 13, color: '#6b757d', maxWidth: '60ch' }}>Supabase handles similarity search — avoiding a secondary vector-database vendor and keeping the stack lean. Building context (floor area, type) is injected into every prompt for bespoke recommendations. Each analysis gets a permanent, shareable URL — driving alignment without a separate reporting layer.</p>
-            </div>
-            <div style={{ border: SEC, padding: '18px 22px' }}>
-              <p style={{ margin: 0, fontSize: 15.5, lineHeight: 1.55, color: '#0f1417', fontWeight: 500 }}>&quot;Every architectural decision was justified by user value or operational cost, never by engineering preference.&quot;</p>
-            </div>
+        <CaseSection n="06" label="Architecture">
+          <H2 maxW="26ch">A dual-flow architecture built around user value and cost efficiency.</H2>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 26 }}>
+            <Flow
+              label="Flow 1 — upload analysis"
+              nodes={[
+                { text: 'UI Upload' },
+                { text: 'Vercel Backend' },
+                { text: 'Claude Sonnet 4.6', accent: true },
+                { text: 'Structured JSON DB' },
+              ]}
+              caption="A single API call handles both structured JSON parsing and natural-language generation."
+            />
+
+            <Flow
+              label="Flow 2 — RAG chat"
+              nodes={[
+                { text: 'User Query' },
+                { text: 'Voyage AI Embeddings' },
+                { text: 'Supabase pgvector' },
+                { text: 'Context Injection' },
+                { text: 'Claude API', accent: true },
+              ]}
+              caption="Supabase handles similarity search — avoiding a secondary vector-database vendor and keeping the stack lean. Building context (floor area, type) is injected into every prompt for bespoke recommendations. Each analysis gets a permanent, shareable URL — driving alignment without a separate reporting layer."
+            />
+
+            <Callout>
+              &quot;Every architectural decision was justified by user value or operational cost, never by engineering
+              preference.&quot;
+            </Callout>
           </div>
-        </section>
+        </CaseSection>
 
         {/* ── 07 KEY AI DECISIONS ── */}
-        <section className="es-s" style={S}>
-          <div className="es-w" style={W}>
-            <SL n="07" label="KEY AI DECISIONS" />
-            <H2 maxW="26ch">Five rigorous tradeoffs balancing reasoning, speed, and cost.</H2>
-            <div className="es-table-scroll" style={{ marginBottom: 22 }}>
-              <div className="es-table-wide" style={{ border: SEC }}>
-                <THead cols={['PROBLEM / CHOICE', 'OPTIONS CONSIDERED', 'PM RATIONALE']} widths="1.1fr 1.3fr 1.6fr" />
-                {DECISIONS.map((d, i) => (
-                  <div key={i} style={{ display: 'grid', gridTemplateColumns: '1.1fr 1.3fr 1.6fr', borderBottom: i < DECISIONS.length - 1 ? ROW : undefined }}>
-                    <span style={{ padding: '13px 14px' }}>
-                      <span style={{ display: 'block', fontSize: 12.5, color: '#99a1a7', marginBottom: 4 }}>{d.problem}</span>
-                      <span style={{ display: 'block', fontSize: 13.5, fontWeight: 600, color: A }}>{d.choice}</span>
-                    </span>
-                    <span style={{ padding: '13px 14px', borderLeft: ROW, fontSize: 12.5, lineHeight: 1.5, color: '#6b757d' }}>{d.options}</span>
-                    <span style={{ padding: '13px 14px', borderLeft: ROW, fontSize: 13, lineHeight: 1.55, color: '#2c343a' }}>{d.why}</span>
-                  </div>
-                ))}
+        <CaseSection n="07" label="Key AI decisions">
+          <H2 maxW="26ch">Five rigorous tradeoffs balancing reasoning, speed, and cost.</H2>
+
+          <div style={{ marginBottom: 24 }}>
+            <DataTable
+              wide
+              cols={['Problem / choice', 'Options considered', 'PM rationale']}
+              widths="1.1fr 1.3fr 1.6fr"
+              rows={DECISIONS.map(d => [
+                <>
+                  <span style={{ display: 'block', fontSize: 12.5, color: 'var(--ink-faint)', marginBottom: 4 }}>{d.problem}</span>
+                  <span style={{ display: 'block', fontSize: 14, fontWeight: 700, color: 'var(--accent)' }}>{d.choice}</span>
+                </>,
+                d.options,
+                d.why,
+              ])}
+            />
+          </div>
+
+          <div className="cs-grid-2" style={{ display: 'grid', gridTemplateColumns: '1.3fr 1fr', gap: 16 }}>
+            <div style={{ border: '1px solid var(--card-border)', borderRadius: 'var(--radius-tile)', padding: '22px 24px' }}>
+              <span style={sub}>Token economics</span>
+              <p style={{ margin: '0 0 18px', fontSize: 14, lineHeight: 1.65, color: 'var(--ink-soft)' }}>
+                The knowledge base contains 20 chunks of Indian energy domain knowledge (~7,200 tokens). Injecting all
+                of it on every turn would be expensive, slow, and redundant. Instead, the system retrieves only the 3
+                most relevant chunks per query, holding a deliberate ceiling of ~1,460 tokens per chat turn.
+              </p>
+              <div style={{ display: 'flex', gap: 32 }}>
+                <Metric value="7,200 tok" label="Naive context" strike size="16px" />
+                <Metric value="~1,460 tok" label="Hybrid retrieval" size="16px" />
               </div>
             </div>
-            <div className="es-token" style={{ display: 'grid', gridTemplateColumns: '1.3fr 1fr', gap: 1, background: 'rgba(15,20,23,.09)', border: SEC }}>
-              <div style={{ background: '#fff', padding: '22px 24px' }}>
-                <div style={{ fontFamily: mono, fontSize: 11, letterSpacing: '.1em', color: '#99a1a7', marginBottom: 12 }}>TOKEN ECONOMICS</div>
-                <p style={{ margin: '0 0 14px', fontSize: 13.5, lineHeight: 1.6, color: '#4b5660' }}>The knowledge base contains 20 chunks of Indian energy domain knowledge (~7,200 tokens). Injecting all of it on every turn would be expensive, slow, and redundant. Instead, the system retrieves only the 3 most relevant chunks per query, holding a deliberate ceiling of ~1,460 tokens per chat turn.</p>
-                <div style={{ display: 'flex', gap: 28, marginTop: 16 }}>
-                  <div>
-                    <div style={{ fontSize: 14, color: '#99a1a7', textDecoration: 'line-through' }}>7,200 tok</div>
-                    <div style={{ fontFamily: mono, fontSize: 10, color: '#99a1a7', marginTop: 4 }}>NAIVE CONTEXT</div>
-                  </div>
-                  <div>
-                    <div style={{ fontSize: 14, fontWeight: 600, color: '#0f1417' }}>~1,460 tok</div>
-                    <div style={{ fontFamily: mono, fontSize: 10, color: '#99a1a7', marginTop: 4 }}>HYBRID RETRIEVAL</div>
-                  </div>
-                </div>
-              </div>
-              <div style={{ background: '#fff', padding: '22px 24px', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 18, borderLeft: SEC }}>
-                <div>
-                  <div style={{ fontSize: 'clamp(28px,3vw,42px)', fontWeight: 600, letterSpacing: '-.03em', color: A, lineHeight: 1 }}>−80%</div>
-                  <div style={{ fontFamily: mono, fontSize: 11, color: '#6b757d', marginTop: 6 }}>token cost, vs. naive context</div>
-                </div>
-                <div>
-                  <div style={{ fontSize: 'clamp(28px,3vw,42px)', fontWeight: 600, letterSpacing: '-.03em', color: '#0f1417', lineHeight: 1 }}>$0.005</div>
-                  <div style={{ fontFamily: mono, fontSize: 11, color: '#6b757d', marginTop: 6 }}>cost per chat turn</div>
-                </div>
-              </div>
+
+            <div style={{
+              border: '1px solid var(--card-border)', borderRadius: 'var(--radius-tile)',
+              padding: '22px 24px', display: 'flex', flexDirection: 'column',
+              justifyContent: 'center', gap: 22,
+            }}>
+              <Metric value="$0.005" label="cost per chat turn" accent />
             </div>
           </div>
-        </section>
+        </CaseSection>
 
         {/* ── 08 QUALITY & SAFETY ── */}
-        <section className="es-s" style={S}>
-          <div className="es-w" style={W}>
-            <SL n="08" label="QUALITY & SAFETY" />
-            <H2 maxW="26ch">Two quality gates enforce the product&apos;s own contract.</H2>
-            <div className="es-grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24, marginBottom: 24 }}>
-              <div style={{ border: SEC, padding: '20px 22px' }}>
-                <div style={{ fontWeight: 600, fontSize: 15, marginBottom: 12, color: '#0f1417' }}>Gate 1 — the evalAndFix loop</div>
-                <p style={{ margin: '0 0 12px', fontSize: 13.5, lineHeight: 1.6, color: '#4b5660' }}>Every parsed CSV runs through an eval gate. 5 structural checks (trimming extra anomalies, lowercasing flags) are silently auto-fixed with no API retry. 7 targeted checks (JSON parse failure, missing fields) trigger a surgical feedback retry.</p>
-                <p style={{ margin: 0, fontSize: 13, lineHeight: 1.6, color: '#6b757d' }}>Instead of failing or blindly retrying, the system feeds Claude its exact previous output alongside the precise parse error — so most errors resolve on the first retry. This eval layer replaces manual QA.</p>
-              </div>
-              <div style={{ border: SEC, padding: '20px 22px' }}>
-                <div style={{ fontWeight: 600, fontSize: 15, marginBottom: 12, color: '#0f1417' }}>Gate 2 — 15-point RAG regression suite</div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 14 }}>
-                  {EVALS.map(e => (
-                    <div key={e.cat} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13, color: '#2c343a', borderBottom: '1px solid rgba(15,20,23,.06)', paddingBottom: 7 }}>
-                      <span>{e.cat}</span>
-                      <span style={{ fontFamily: mono, color: A }}>{e.n}</span>
-                    </div>
-                  ))}
-                </div>
-                <p style={{ margin: '0 0 12px', fontSize: 13, lineHeight: 1.6, color: '#6b757d' }}>Deep dive, eval 6 (demand-charge grounding): to pass, the response must contain both &quot;kVA&quot; and &quot;₹&quot; — if it explains the concept but lacks the exact rate, it&apos;s flagged as a grounding failure.</p>
-                <div style={{ padding: '10px 14px', background: '#f5f7f7', border: SEC, fontFamily: mono, fontSize: 11, color: A }}>
-                  CI — GitHub Action on every Vercel deploy · results in repo artifacts
-                </div>
-              </div>
+        <CaseSection n="08" label="Quality & safety">
+          <H2 maxW="26ch">Two quality gates enforce the product&apos;s own contract.</H2>
+
+          <div className="cs-grid-2" style={{ display: 'grid', gap: 16, marginBottom: 28 }}>
+            <div style={{ border: '1px solid var(--card-border)', borderRadius: 'var(--radius-tile)', padding: '20px 22px' }}>
+              <H3>Gate 1 — the evalAndFix loop</H3>
+              <p style={{ margin: '0 0 12px', fontSize: 14, lineHeight: 1.65, color: 'var(--ink-soft)' }}>
+                Every parsed CSV runs through an eval gate. 5 structural checks (trimming extra anomalies, lowercasing
+                flags) are silently auto-fixed with no API retry. 7 targeted checks (JSON parse failure, missing fields)
+                trigger a surgical feedback retry.
+              </p>
+              <p style={{ margin: 0, fontSize: 13.5, lineHeight: 1.65, color: 'var(--ink-soft)' }}>
+                Instead of failing or blindly retrying, the system feeds Claude its exact previous output alongside the
+                precise parse error — so most errors resolve on the first retry. This eval layer replaces manual QA.
+              </p>
             </div>
-            <div style={{ marginBottom: 22 }}>
-              <div style={{ fontFamily: mono, fontSize: 11, letterSpacing: '.1em', color: '#99a1a7', marginBottom: 14 }}>THE 11-POINT GUARDRAIL SHIELD</div>
-              <div className="es-grid-4" style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 1, background: 'rgba(15,20,23,.09)', border: SEC }}>
-                {GUARDRAILS.map(gr => (
-                  <div key={gr.cat} style={{ background: '#fff', padding: '16px 16px' }}>
-                    <div style={{ display: 'flex', alignItems: 'baseline', gap: 7, marginBottom: 10 }}>
-                      <span style={{ fontSize: 14, fontWeight: 600, color: '#0f1417' }}>{gr.cat}</span>
-                      <span style={{ fontFamily: mono, fontSize: 11, color: A }}>({gr.n})</span>
-                    </div>
-                    <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: 6 }}>
-                      {gr.items.map((it, i) => <li key={i} style={{ fontSize: 12, lineHeight: 1.5, color: '#5b6670' }}>{it}</li>)}
-                    </ul>
+
+            <div style={{ border: '1px solid var(--card-border)', borderRadius: 'var(--radius-tile)', padding: '20px 22px' }}>
+              <H3>Gate 2 — 15-point RAG regression suite</H3>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 16 }}>
+                {EVALS.map(e => (
+                  <div key={e.cat} style={{
+                    display: 'flex', justifyContent: 'space-between', fontSize: 13.5,
+                    color: 'var(--ink-soft)', borderBottom: '1px solid var(--card-border)', paddingBottom: 8,
+                  }}>
+                    <span>{e.cat}</span>
+                    <span style={{ fontFamily: mono, fontWeight: 600, color: 'var(--accent)' }}>{e.n}</span>
                   </div>
                 ))}
               </div>
-            </div>
-            <div style={{ border: SEC, padding: '16px 20px' }}>
-              <p style={{ margin: 0, fontSize: 14.5, lineHeight: 1.55, color: '#0f1417', fontWeight: 500 }}>&quot;Guardrails fire before the model is called. Rejections cost zero tokens. Safety and rate-limiting are product features that directly improve perceived responsiveness and unit economics.&quot;</p>
-            </div>
-          </div>
-        </section>
-
-        {/* ── 09 METRICS — ONE NORTH STAR ── */}
-        <section className="es-s" style={S}>
-          <div className="es-w" style={W}>
-            <SL n="09" label="METRICS — ONE NORTH STAR" />
-            <H2 maxW="26ch">Optimising for behaviour changed, not insights delivered.</H2>
-            <div style={{ border: '1px solid rgba(12,118,106,.28)', background: 'rgba(12,118,106,.05)', padding: '18px 22px', marginBottom: 22 }}>
-              <div style={{ fontFamily: mono, fontSize: 11, letterSpacing: '.1em', color: A, marginBottom: 8 }}>NORTH STAR</div>
-              <p style={{ margin: '0 0 6px', fontSize: 17, fontWeight: 600, color: '#0f1417', lineHeight: 1.35 }}>% of uploaded datasets where a recommended action is taken within 30 days.</p>
-              <p style={{ margin: 0, fontSize: 13, lineHeight: 1.5, color: '#5b6670' }}>Because insight delivered isn&apos;t the goal — behaviour changed is.</p>
-            </div>
-            <div className="es-grid-3" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 1, background: 'rgba(15,20,23,.09)', border: SEC, marginBottom: 22 }}>
-              <div style={{ background: '#fff', padding: '18px 20px' }}>
-                <div style={{ fontFamily: mono, fontSize: 11, letterSpacing: '.1em', color: '#99a1a7', marginBottom: 12 }}>LEADING INDICATORS</div>
-                <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: 9 }}>
-                  {['Upload activation (% reaching the dashboard)', 'Chat engagement rate', 'Recommendation-card click-through rate', 'Time-to-first-chat after upload'].map((it, i) => (
-                    <li key={i} style={{ fontSize: 13, lineHeight: 1.5, color: '#2c343a' }}>{it}</li>
-                  ))}
-                </ul>
-              </div>
-              <div style={{ background: '#fff', padding: '18px 20px', borderLeft: SEC }}>
-                <div style={{ fontFamily: mono, fontSize: 11, letterSpacing: '.1em', color: '#99a1a7', marginBottom: 12 }}>LAGGING INDICATORS</div>
-                <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: 9 }}>
-                  {['Repeat upload rate (MoM retention)', 'Self-reported energy cost reduction'].map((it, i) => (
-                    <li key={i} style={{ fontSize: 13, lineHeight: 1.5, color: '#2c343a' }}>{it}</li>
-                  ))}
-                </ul>
-              </div>
-              <div style={{ background: '#fff', padding: '18px 20px', borderLeft: SEC }}>
-                <div style={{ fontFamily: mono, fontSize: 11, letterSpacing: '.1em', color: '#99a1a7', marginBottom: 12 }}>OPERATIONAL</div>
-                <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: 9 }}>
-                  {['Response latency', 'Token cost per query (~$0.005 measured)', 'API error rate'].map((it, i) => (
-                    <li key={i} style={{ fontSize: 13, lineHeight: 1.5, color: '#2c343a' }}>{it}</li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-            <div style={{ fontFamily: mono, fontSize: 11, letterSpacing: '.1em', color: '#99a1a7', marginBottom: 14 }}>LAUNCH HYPOTHESES</div>
-            <div className="es-table-scroll" style={{ marginBottom: 22 }}>
-              <div className="es-table" style={{ border: SEC }}>
-                <THead cols={['METRIC', 'INDUSTRY BASELINE', 'LAUNCH HYPOTHESIS']} widths="1.4fr 1fr 1fr" />
-                {HYPOTHESES.map((h, i) => (
-                  <div key={i} style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr 1fr', borderBottom: i < HYPOTHESES.length - 1 ? ROW : undefined }}>
-                    <span style={{ padding: '11px 14px', fontSize: 13.5, fontWeight: 600, color: '#0f1417' }}>{h.metric}</span>
-                    <span style={{ padding: '11px 14px', borderLeft: ROW, fontFamily: mono, fontSize: 12.5, color: '#99a1a7', textDecoration: 'line-through' }}>{h.baseline}</span>
-                    <span style={{ padding: '11px 14px', borderLeft: ROW, fontFamily: mono, fontSize: 13, fontWeight: 600, color: A }}>{h.hypothesis}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div style={{ fontFamily: mono, fontSize: 11, letterSpacing: '.1em', color: '#99a1a7', marginBottom: 12 }}>ROADMAP</div>
-            <div className="es-grid-3" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 1, background: 'rgba(15,20,23,.09)', border: SEC }}>
-              <div style={{ background: '#fff', padding: '14px 18px' }}>
-                <div style={{ fontFamily: mono, fontSize: 10, color: A, marginBottom: 6 }}>NOW</div>
-                <div style={{ fontSize: 13, color: '#2c343a', lineHeight: 1.5 }}>CI hardening · Energy Intensity KPI (kWh/sq ft)</div>
-              </div>
-              <div style={{ background: '#fff', padding: '14px 18px', borderLeft: SEC }}>
-                <div style={{ fontFamily: mono, fontSize: 10, color: A, marginBottom: 6 }}>NEXT</div>
-                <div style={{ fontSize: 13, color: '#2c343a', lineHeight: 1.5 }}>Multi-building portfolio RAG · Redis rate limiting</div>
-              </div>
-              <div style={{ background: '#fff', padding: '14px 18px', borderLeft: SEC }}>
-                <div style={{ fontFamily: mono, fontSize: 10, color: A, marginBottom: 6 }}>LATER</div>
-                <div style={{ fontSize: 13, color: '#2c343a', lineHeight: 1.5 }}>Live IoT integration · Predictive maintenance</div>
+              <p style={{ margin: '0 0 14px', fontSize: 13.5, lineHeight: 1.65, color: 'var(--ink-soft)' }}>
+                Deep dive, eval 6 (demand-charge grounding): to pass, the response must contain both &quot;kVA&quot; and
+                &quot;₹&quot; — if it explains the concept but lacks the exact rate, it&apos;s flagged as a grounding
+                failure.
+              </p>
+              <div style={{
+                padding: '10px 14px', background: 'var(--accent-tint)',
+                border: '1px solid var(--accent-tint-border)', borderRadius: 'var(--radius-chip)',
+                fontFamily: mono, fontSize: 11.5, color: 'var(--accent)', lineHeight: 1.5,
+              }}>
+                CI — GitHub Action on every Vercel deploy · results in repo artifacts
               </div>
             </div>
           </div>
-        </section>
 
-        {/* ── 10 WHAT I'D DO DIFFERENTLY + SYNTHESIS ── */}
-        <section className="es-s" style={{ padding: '68px 0 80px', borderBottom: 'none' }}>
-          <div className="es-w" style={W}>
-            <SL n="10" label="WHAT I'D DO DIFFERENTLY + SYNTHESIS" />
-            <H2 maxW="26ch">How constraints bred elegant engineering — and three honest lessons.</H2>
-            <div style={{ marginBottom: 32 }}>
-              <div style={{ fontFamily: mono, fontSize: 11, letterSpacing: '.1em', color: '#99a1a7', marginBottom: 14 }}>WHAT I&apos;D DO DIFFERENTLY</div>
-              <h3 style={{ margin: '0 0 18px', fontSize: 'clamp(18px,2vw,22px)', fontWeight: 600, letterSpacing: '-.02em', color: '#0f1417' }}>Three honest lessons from building this end-to-end.</h3>
-              <ol style={{ margin: 0, padding: '0 0 0 20px', display: 'flex', flexDirection: 'column', gap: 16 }}>
-                <li style={{ fontSize: 14, lineHeight: 1.6, color: '#2c343a' }}>
-                  <strong>Design the data model for the AI roadmap, not just the MVP.</strong> Monthly granularity works for the KPI dashboard but can&apos;t support multi-step agentic reasoning — rebuilding the data layer cost a sprint.
-                </li>
-                <li style={{ fontSize: 14, lineHeight: 1.6, color: '#2c343a' }}>
-                  <strong>Freeze the eval set on Day 1.</strong> Evals written after the fact ratify what&apos;s already there rather than defining the bar. I now do this from the start on the next build.
-                </li>
-                <li style={{ fontSize: 14, lineHeight: 1.6, color: '#2c343a' }}>
-                  <strong>AI Chat&apos;s RICE score was lower than dashboard/reports — which was correct.</strong> I&apos;d surface that gap explicitly to stakeholders earlier so Phase 1.5 doesn&apos;t appear as scope creep.
-                </li>
-              </ol>
-            </div>
-            <div style={{ fontFamily: mono, fontSize: 11, letterSpacing: '.1em', color: '#99a1a7', marginBottom: 14 }}>SYNTHESIS</div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 1, background: 'rgba(15,20,23,.09)', border: SEC, marginBottom: 24 }}>
-              {SYNTHESIS.map((s, i) => (
-                <div key={i} className="es-grid-2" style={{ background: '#fff', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, padding: '18px 22px', alignItems: 'center' }}>
-                  <span style={{ fontSize: 13.5, fontWeight: 600, color: '#0f1417' }}>{s.constraint}</span>
-                  <span style={{ fontSize: 13, lineHeight: 1.55, color: '#4b5660' }}>{s.outcome}</span>
+          <span style={sub}>The 11-point guardrail shield</span>
+          <div className="cs-grid-4" style={{ display: 'grid', gap: 16, marginBottom: 24 }}>
+            {GUARDRAILS.map(gr => (
+              <div key={gr.cat} style={{ border: '1px solid var(--card-border)', borderRadius: 'var(--radius-tile)', padding: '18px 16px' }}>
+                <div style={{ display: 'flex', alignItems: 'baseline', gap: 7, marginBottom: 12 }}>
+                  <span style={{ fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 700, color: 'var(--ink)' }}>{gr.cat}</span>
+                  <span style={{ fontFamily: mono, fontSize: 11, color: 'var(--accent)' }}>({gr.n})</span>
                 </div>
-              ))}
-            </div>
-            <div style={{ border: SEC, padding: '20px 24px' }}>
-              <p style={{ margin: 0, fontSize: 17, lineHeight: 1.5, color: '#0f1417', fontWeight: 500 }}>&quot;The best AI products aren&apos;t built by indiscriminately using the most expensive models, but by applying the smartest systemic constraints.&quot;</p>
-            </div>
+                <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: 7 }}>
+                  {gr.items.map((it, i) => (
+                    <li key={i} style={{ fontSize: 12.5, lineHeight: 1.5, color: 'var(--ink-soft)' }}>{it}</li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </div>
-        </section>
 
-        {/* ── Footer ── */}
-        <footer style={{ padding: '40px 0 28px' }}>
-          <div className="es-w" style={{ ...W, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16, borderTop: '1px solid rgba(15,20,23,.1)', paddingTop: 18 }}>
-            <Link href="/#cases" style={{ fontFamily: mono, fontSize: 12, letterSpacing: '.04em', textDecoration: 'none', color: '#2c343a', border: '1px solid rgba(15,20,23,.16)', padding: '10px 18px' }}>
-              ← Back to portfolio
-            </Link>
-            <a href="mailto:vijayeta.meher@gmail.com" style={{ fontFamily: mono, fontSize: 12, letterSpacing: '.04em', textDecoration: 'none', color: '#fff', background: A, padding: '10px 18px', fontWeight: 500 }}>
-              vijayeta.meher@gmail.com →
-            </a>
+          <Callout warm>
+            &quot;Guardrails fire before the model is called. Rejections cost zero tokens. Safety and rate-limiting are
+            product features that directly improve perceived responsiveness and unit economics.&quot;
+          </Callout>
+        </CaseSection>
+
+        {/* ── 09 METRICS ── */}
+        <CaseSection n="09" label="Metrics — one north star">
+          <H2 maxW="26ch">Optimising for behaviour changed, not insights delivered.</H2>
+
+          <div style={{ marginBottom: 24 }}>
+            <Callout label="North star">
+              <span style={{ display: 'block', fontSize: 17, fontWeight: 700, lineHeight: 1.4, marginBottom: 8 }}>
+                % of uploaded datasets where a recommended action is taken within 30 days.
+              </span>
+              <span style={{ display: 'block', fontSize: 14, color: 'var(--ink-soft)' }}>
+                Because insight delivered isn&apos;t the goal — behaviour changed is.
+              </span>
+            </Callout>
           </div>
-        </footer>
 
-      </main>
+          <div className="cs-grid-3" style={{ display: 'grid', gap: 16, marginBottom: 28 }}>
+            {[
+              { label: 'Leading indicators', items: LEADING },
+              { label: 'Lagging indicators', items: LAGGING },
+              { label: 'Operational',        items: OPERATIONAL },
+            ].map(col => (
+              <div key={col.label} style={{ border: '1px solid var(--card-border)', borderRadius: 'var(--radius-tile)', padding: '18px 20px' }}>
+                <span style={sub}>{col.label}</span>
+                <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: 9 }}>
+                  {col.items.map((it, i) => (
+                    <li key={i} style={{ fontSize: 13.5, lineHeight: 1.55, color: 'var(--ink-soft)' }}>{it}</li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+
+          <span style={sub}>Launch hypotheses</span>
+          <div style={{ marginBottom: 28 }}>
+            <DataTable
+              cols={['Metric', 'Industry baseline', 'Launch hypothesis']}
+              widths="1.4fr 1fr 1fr"
+              colStyles={[
+                { fontWeight: 700, color: 'var(--ink)' },
+                { fontFamily: mono, color: 'var(--ink-faint)', textDecoration: 'line-through' },
+                { fontFamily: mono, fontWeight: 600, color: 'var(--accent)' },
+              ]}
+              rows={HYPOTHESES.map(h => [h.metric, h.baseline, h.hypothesis])}
+            />
+          </div>
+
+          <span style={sub}>Roadmap</span>
+          <div className="cs-grid-3" style={{ display: 'grid', gap: 16 }}>
+            {ROADMAP.map(r => (
+              <div key={r.k} style={{ border: '1px solid var(--card-border)', borderRadius: 'var(--radius-tile)', padding: '16px 18px' }}>
+                <div style={{ fontFamily: mono, fontSize: 10, fontWeight: 600, letterSpacing: '.12em', color: 'var(--accent)', marginBottom: 8 }}>{r.k}</div>
+                <div style={{ fontSize: 13.5, color: 'var(--ink-soft)', lineHeight: 1.55 }}>{r.v}</div>
+              </div>
+            ))}
+          </div>
+        </CaseSection>
+
+        {/* ── 10 SYNTHESIS ── */}
+        <CaseSection n="10" label="What I'd do differently + synthesis">
+          <H2 maxW="26ch">How constraints bred elegant engineering — and three honest lessons.</H2>
+
+          <div style={{ marginBottom: 32 }}>
+            <span style={sub}>What I&apos;d do differently</span>
+            <H3 mb={18}>Three honest lessons from building this end-to-end.</H3>
+            <ol style={{ margin: 0, padding: '0 0 0 20px', display: 'flex', flexDirection: 'column', gap: 16 }}>
+              <li style={{ fontSize: 15, lineHeight: 1.65, color: 'var(--ink-soft)' }}>
+                <strong style={{ color: 'var(--ink)' }}>Design the data model for the AI roadmap, not just the MVP.</strong>{' '}
+                Monthly granularity works for the KPI dashboard but can&apos;t support multi-step agentic reasoning —
+                rebuilding the data layer cost a sprint.
+              </li>
+              <li style={{ fontSize: 15, lineHeight: 1.65, color: 'var(--ink-soft)' }}>
+                <strong style={{ color: 'var(--ink)' }}>Freeze the eval set on Day 1.</strong>{' '}
+                Evals written after the fact ratify what&apos;s already there rather than defining the bar. I now do
+                this from the start on the next build.
+              </li>
+              <li style={{ fontSize: 15, lineHeight: 1.65, color: 'var(--ink-soft)' }}>
+                <strong style={{ color: 'var(--ink)' }}>AI Chat&apos;s RICE score was lower than dashboard/reports — which was correct.</strong>{' '}
+                I&apos;d surface that gap explicitly to stakeholders earlier so Phase 1.5 doesn&apos;t appear as scope
+                creep.
+              </li>
+            </ol>
+          </div>
+
+          <span style={sub}>Synthesis</span>
+          <div style={{ marginBottom: 24 }}>
+            <DataTable
+              cols={['Constraint', 'Engineering outcome']}
+              widths="1fr 1.4fr"
+              colStyles={[{ fontWeight: 700, color: 'var(--ink)' }, undefined]}
+              rows={SYNTHESIS.map(s => [s.constraint, s.outcome])}
+            />
+          </div>
+
+          <Callout>
+            &quot;The best AI products aren&apos;t built by indiscriminately using the most expensive models, but by
+            applying the smartest systemic constraints.&quot;
+          </Callout>
+        </CaseSection>
+      </CaseMain>
+
+      <CaseCTA />
     </>
   )
 }

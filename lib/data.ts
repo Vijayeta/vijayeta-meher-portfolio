@@ -1,3 +1,5 @@
+import type { IconKey } from '@/components/ui/Icons'
+
 export interface HeroStat {
   key: string
   target: number
@@ -26,7 +28,9 @@ export interface Work {
   name: string
   blurb: string
   metric: string
+  metricLabel: string
   tag: string
+  cover?: string
   href?: string
 }
 
@@ -49,6 +53,8 @@ export interface Case {
   main: { target: number; dec: number; prefix: string; suffix: string }
   mainLabel: string
   sub: SubMetric[]
+  tag: string
+  cover?: string
   href?: string
 }
 
@@ -60,10 +66,50 @@ export interface Post {
   read: string
 }
 
+export interface Skill {
+  label: string
+  icon: IconKey
+}
+
+export interface SkillCategory {
+  category: string
+  accent: 'teal' | 'warm'
+  skills: Skill[]
+}
+
+// ── Profile ───────────────────────────────────────────────
+// The single place for identity, links and the top/bottom copy.
+// Empty link fields degrade gracefully — the button hides itself.
+
+export const PROFILE = {
+  name: 'Vijayeta Meher',
+  initials: 'VM',
+  eyebrow: 'PRODUCT MANAGER · AI PRODUCTS · ENTERPRISE SAAS',
+  headline: 'Building AI products that solve real customer problems.',
+  intro:
+    'Product Manager with 12+ years of experience delivering enterprise software and digital products. Combining product strategy, AI, experimentation, and customer insights to create intelligent products that drive measurable business outcomes.',
+  availability: 'Open to Product Manager roles · Bangalore / Remote',
+
+  story: [
+    "I started my career as a software engineer, where I learned to turn complex technical problems into practical solutions. Over 12+ years, I transitioned into Product Management and began focusing on the bigger questions of what to build, why it matters, and how it creates value. Today, I work at the intersection of technology, customers, and business, building enterprise SaaS products that scale. My curiosity about AI pushed me beyond theory into building hands-on with RAG, AI agents, evaluations, guardrails, and LLM applications. Now, I’m combining my engineering and product experience to build AI products that are intelligent, measurable, reliable, and genuinely useful.",
+  ],
+
+  ctaHeadline: "Looking for a PM who's lived the delivery side?",
+  ctaBody:
+    "Tell me what is not working — the roadmap, the discovery process, or an AI feature that is not earning its place — and I will give you an honest view on whether I am the right fit.",
+
+  email: 'mailto:vijayeta.meher@gmail.com',
+  emailLabel: 'vijayeta.meher@gmail.com',
+  linkedin: 'https://www.linkedin.com/in/vijayeta-meher/',
+  github: 'https://github.com/Vijayeta',     // from the repo's origin remote
+  resumeUrl: '',   // FILL — e.g. '/resume.pdf'; button stays hidden while empty
+  headshot: '/headshot.jpg',   // public/headshot.jpg (640px, optimised); falls back to initials if absent
+}
+
 export const HEROSTATS: HeroStat[] = [
-  { key: 'pred',   target: 94,   dec: 0, prefix: '',   suffix: '%', label: 'release predictability' },
-  { key: 'lift',   target: 34,   dec: 0, prefix: '+',  suffix: '%', label: 'peak conversion lift' },
-  { key: 'defect', target: 38,   dec: 0, prefix: '−',  suffix: '%', label: 'defect escape rate' },
+  { key: 'years',  target: 12,   dec: 0, prefix: '',   suffix: '+', label: 'years building software products' },
+  { key: 'rev',    target: 30,   dec: 0, prefix: '+',  suffix: '%', label: 'YoY revenue growth' },
+  { key: 'reach',  target: 75,   dec: 0, prefix: '',   suffix: 'K', label: 'daily users served' },
 ]
 
 export const FRAMEWORKS: Framework[] = [
@@ -80,13 +126,14 @@ export const CAREER: CareerRow[] = [
 ]
 
 export const WORKS: Work[] = [
-  { idx: '01', year: '2023', name: 'Global Search',          blurb: 'UI modernisation of an internal enterprise search platform serving 75,000 visits per day — owned from discovery through delivery at Ericsson.', metric: '75K/day', tag: 'Enterprise', href: '/work/gsa' },
-  { idx: '02', year: '2022–Present', name: 'EcoStruxure Energy Hub', blurb: "Enterprise SaaS platform for energy management — own the roadmap across two Agile teams, driving ARR growth through customer-driven prioritization and Secure SDLC adoption.", metric: '5 modules', tag: 'Energy', href: '/work/ecostruxure' },
+  { idx: '01', year: '2023', name: 'Global Search', blurb: 'UI modernisation of an internal enterprise search platform serving 75,000 visits per day — owned from discovery through delivery at Ericsson.', metric: '75K/day', metricLabel: 'searches served', tag: 'Enterprise', cover: '/covers/gsa.svg', href: '/work/gsa' },
+  { idx: '02', year: '2022–Present', name: 'EcoStruxure Energy Hub', blurb: 'Enterprise SaaS platform for energy management — own the roadmap across two Agile teams, driving ARR growth through customer-driven prioritization and Secure SDLC adoption.', metric: '5 modules', metricLabel: 'owned end to end', tag: 'Energy', cover: '/covers/ecostruxure.svg', href: '/work/ecostruxure' },
 ]
 
 export const CASES: Case[] = [
   {
-    idx: '01', company: 'EnergySense AI', sector: 'AI ENERGY SAAS · INDIA', role: "SOLO PM + BUILDER · '25–NOW",
+    idx: '01', company: 'EnergySense AI', sector: 'AI ENERGY SAAS · INDIA', role: "SOLO PM + BUILDER",
+    tag: 'AI Product Strategy',
     title: "An AI energy consultant for India's underserved SMEs",
     problem: "Facility managers know their bills are high but lack tools to understand why — energy audits cost ₹50,000–₹2,00,000, pricing out 95% of the market.",
     approach: [
@@ -96,14 +143,15 @@ export const CASES: Case[] = [
     ],
     main: { target: 20, dec: 0, prefix: '', suffix: '%' },
     mainLabel: 'energy savings identified',
+    cover: '/covers/energysense.webp',
     sub: [
-      { target: 80,    dec: 0, prefix: '−',  suffix: '%', label: 'token cost, vs. naive' },
       { target: 0.005, dec: 3, prefix: '$',  suffix: '',  label: 'cost per chat turn' },
     ],
     href: '/cases/energysense',
   },
   {
-    idx: '02', company: 'Telecom RAG Assistant', sector: 'AI CUSTOMER SUPPORT · RAG', role: "SOLO PM + BUILDER · '25–NOW",
+    idx: '02', company: 'Telecom RAG Assistant', sector: 'AI CUSTOMER SUPPORT · RAG', role: "SOLO PM + BUILDER",
+    tag: 'RAG Architecture',
     title: 'A support assistant that answers only what it can cite',
     problem: "A mobile operator's Tier-1 answers already exist — split across a public FAQ, a resolved-ticket database and a PDF user guide. Customers can't search them together, and a confidently wrong answer about a price or a policy is worse than no answer at all.",
     approach: [
@@ -113,11 +161,45 @@ export const CASES: Case[] = [
     ],
     main: { target: 0.8, dec: 1, prefix: '', suffix: 's' },
     mainLabel: 'median response time',
+    cover: '/covers/novacell.webp',
     sub: [
       { target: 81, dec: 0, prefix: '', suffix: '', label: 'documents indexed' },
       { target: 9,  dec: 0, prefix: '', suffix: '', label: 'sources cited / answer' },
     ],
     href: '/cases/novacell',
+  },
+]
+
+export const SKILLS: SkillCategory[] = [
+  {
+    category: 'Product & Strategy',
+    accent: 'teal',
+    skills: [
+      { label: 'Roadmapping',           icon: 'ganttChart' },
+      { label: 'PRD Authoring',         icon: 'fileText' },
+      { label: 'RICE Prioritization',   icon: 'target' },
+      { label: 'Product Strategy',      icon: 'compass' },
+    ],
+  },
+  {
+    category: 'Research & Discovery',
+    accent: 'warm',
+    skills: [
+      { label: 'Customer Interviews',   icon: 'users' },
+      { label: 'Jobs To Be Done',       icon: 'workflow' },
+      { label: 'Competitive Analysis',  icon: 'search' },
+      { label: 'Metrics & Analytics',   icon: 'lineChart' },
+    ],
+  },
+  {
+    category: 'AI & Delivery',
+    accent: 'teal',
+    skills: [
+      { label: 'RAG Architecture',      icon: 'database' },
+      { label: 'LLM Evaluations',       icon: 'checkList' },
+      { label: 'Agile & Scrum',         icon: 'kanban' },
+      { label: 'Secure SDLC',           icon: 'shield' },
+    ],
   },
 ]
 

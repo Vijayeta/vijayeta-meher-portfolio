@@ -1,14 +1,13 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
+import {
+  CaseNav, CaseHeader, CaseMain, CaseSection, CaseCTA, GlanceCard,
+  H2, Lede, Chips, Bullets, KeyCard, Callout, ProductShot, mono,
+} from '@/components/case'
 
 export const metadata: Metadata = {
   title: 'EcoStruxure Energy Hub — Vijayeta Meher',
   description: "Technical Product Ownership on Schneider Electric's cloud SaaS platform for enterprise energy management.",
 }
-
-const A = '#0c766a'
-const SEC = '1px solid rgba(15,20,23,.09)'
-const mono = 'var(--font-mono)'
 
 // ── Data ──────────────────────────────────────────────────
 
@@ -77,7 +76,7 @@ const MODULES: Module[] = [
       'Prioritized backlog based on customer feedback',
       'Worked with QA to validate user management scenarios',
     ],
-    capabilitiesLabel: 'KEY CAPABILITIES',
+    capabilitiesLabel: 'Key capabilities',
     capabilities: ['User creation', 'User updates', 'User deactivation', 'Role assignment', 'Access control', 'Organization-level user administration'],
     value: ['Improved platform security', 'Simplified administration for enterprise customers', 'Supported scalable customer deployments'],
   },
@@ -91,7 +90,7 @@ const MODULES: Module[] = [
       'Worked with engineering teams during implementation',
       'Prioritized enhancements based on customer feedback',
     ],
-    capabilitiesLabel: 'DASHBOARD CAPABILITIES',
+    capabilitiesLabel: 'Dashboard capabilities',
     capabilities: ['Energy overview', 'Site-level visibility', 'Device status', 'Energy trends', 'KPI visualization', 'Quick access to alerts'],
     value: ['Improved visibility into facility performance', 'Enabled faster operational decision-making', 'Reduced effort required to monitor multiple sites'],
   },
@@ -105,7 +104,7 @@ const MODULES: Module[] = [
       'Worked with QA on mobile release validation',
       'Prioritized usability improvements',
     ],
-    capabilitiesLabel: 'MOBILE FEATURES',
+    capabilitiesLabel: 'Mobile features',
     capabilities: ['Dashboard access', 'Site monitoring', 'Alert viewing', 'Notification support', 'Secure user authentication'],
     value: ['Increased accessibility', 'Improved customer engagement', 'Enabled monitoring outside office environments'],
   },
@@ -119,7 +118,7 @@ const MODULES: Module[] = [
       'Defined acceptance criteria for notification scenarios',
       'Worked with QA during feature validation',
     ],
-    capabilitiesLabel: 'NOTIFICATION TYPES',
+    capabilitiesLabel: 'Notification types',
     capabilities: ['Critical alarms', 'System events', 'Operational updates', 'Mobile notifications', 'In-app notifications'],
     value: ['Reduced response time', 'Improved operational awareness', 'Enabled proactive issue resolution'],
   },
@@ -150,260 +149,163 @@ const SKILLS = [
   'Release Planning', 'Stakeholder Management',
 ]
 
-// ── Shared primitives ─────────────────────────────────────
-
-function SL({ n, label }: { n: string; label: string }) {
-  return (
-    <div style={{ display: 'flex', alignItems: 'baseline', gap: 16, marginBottom: 12 }}>
-      <span style={{ fontFamily: mono, fontSize: 13, color: A }}>{n}</span>
-      <span style={{ fontFamily: mono, fontSize: 11, letterSpacing: '.16em', color: '#99a1a7' }}>{label}</span>
-    </div>
-  )
-}
-
-function H2({ children, maxW = '26ch', mb = 28 }: { children: React.ReactNode; maxW?: string; mb?: number }) {
-  return (
-    <h2 style={{ margin: `0 0 ${mb}px`, fontSize: 'clamp(24px,3.2vw,40px)', fontWeight: 600, letterSpacing: '-.03em', lineHeight: 1.1, maxWidth: maxW }}>
-      {children}
-    </h2>
-  )
-}
-
-function Chips({ items }: { items: string[] }) {
-  return (
-    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-      {items.map(it => (
-        <span key={it} style={{
-          fontFamily: mono, fontSize: 11, letterSpacing: '.04em',
-          color: '#2c343a', border: '1px solid rgba(15,20,23,.14)', padding: '7px 12px',
-        }}>
-          {it}
-        </span>
-      ))}
-    </div>
-  )
-}
-
-function Bullets({ items, mark = '▲' }: { items: string[]; mark?: string }) {
-  return (
-    <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: 9 }}>
-      {items.map((it, i) => (
-        <li key={i} style={{ display: 'flex', gap: 10, fontSize: 13.5, lineHeight: 1.55, color: '#2c343a' }}>
-          <span style={{ color: A, fontFamily: mono, fontSize: 10, paddingTop: 4, flexShrink: 0 }}>{mark}</span>
-          <span>{it}</span>
-        </li>
-      ))}
-    </ul>
-  )
-}
-
-const W = { maxWidth: 1200, margin: '0 auto', padding: '0 40px' }
-const S = { padding: '64px 0', borderBottom: '1px solid rgba(15,20,23,.08)' }
+const sub = { fontFamily: mono, fontSize: 11, fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase' as const, color: 'var(--ink-faint)', marginBottom: 14, display: 'block' }
 
 // ── Page ──────────────────────────────────────────────────
 
 export default function EcoStruxurePage() {
   return (
     <>
-      <nav className="ec-nav" style={{
-        position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50,
-        height: 52, display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        padding: '0 40px',
-        background: 'rgba(255,255,255,.86)', backdropFilter: 'blur(14px)', WebkitBackdropFilter: 'blur(14px)',
-        borderBottom: '1px solid rgba(15,20,23,.08)',
-      }}>
-        <Link href="/#work" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', color: '#0f1417' }}>
-          <span style={{ fontFamily: mono, fontSize: 13, color: A }}>←</span>
-          <span style={{ fontWeight: 600, letterSpacing: '.04em', fontSize: 14 }}>VIJAYETA MEHER</span>
-        </Link>
-        <span className="ec-hide-sm" style={{ fontFamily: mono, fontSize: 11, letterSpacing: '.1em', color: '#99a1a7' }}>SELECTED WORK · SCHNEIDER ELECTRIC</span>
-      </nav>
+      <CaseNav label="Selected work · Schneider Electric" />
 
-      <main style={{ paddingTop: 52 }}>
+      <CaseHeader
+        eyebrow="Selected work · Schneider Electric"
+        title="EcoStruxure Energy Hub"
+        subtitle="Technical Product Owner — Schneider Electric"
+        lede="A cloud-based SaaS platform that lets commercial and industrial customers monitor, analyze, and optimize energy consumption across one or many sites — collecting data from connected electrical devices, processing it in the cloud, and surfacing actionable insight through web and mobile."
+      />
 
-        {/* ── HEADER ── */}
-        <header className="ec-header" style={{ position: 'relative', padding: '80px 40px 48px', borderBottom: '1px solid rgba(15,20,23,.08)' }}>
-          <div style={{
-            position: 'absolute', inset: 0,
-            backgroundImage: 'linear-gradient(rgba(15,20,23,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(15,20,23,.045) 1px,transparent 1px)',
-            backgroundSize: '62px 62px',
-            WebkitMaskImage: 'radial-gradient(ellipse 70% 65% at 20% 20%,#000 30%,transparent 76%)',
-            maskImage: 'radial-gradient(ellipse 70% 65% at 20% 20%,#000 30%,transparent 76%)',
-          }} />
-          <div style={{ position: 'relative', maxWidth: 1200, margin: '0 auto' }}>
-            <div style={{ fontFamily: mono, fontSize: 12, letterSpacing: '.18em', color: A, marginBottom: 18 }}>SELECTED WORK · SCHNEIDER ELECTRIC</div>
-            <h1 style={{ margin: 0, fontSize: 'clamp(30px,5vw,60px)', fontWeight: 600, lineHeight: .98, letterSpacing: '-.03em', maxWidth: '18ch' }}>EcoStruxure Energy Hub</h1>
-            <p style={{ margin: '14px 0 0', fontSize: 'clamp(15px,1.6vw,19px)', fontWeight: 500, color: '#2c343a', maxWidth: '30ch' }}>
-              Technical Product Owner — Schneider Electric
-            </p>
-            <p style={{ margin: '16px 0 0', maxWidth: '68ch', fontSize: 15, lineHeight: 1.6, color: '#4b5660' }}>
-              A cloud-based SaaS platform that lets commercial and industrial customers monitor, analyze, and optimize energy consumption across one or many sites — collecting data from connected electrical devices, processing it in the cloud, and surfacing actionable insight through web and mobile.
-            </p>
-            <div style={{ border: SEC, background: '#fff', maxWidth: 820, marginTop: 32 }}>
-              <div style={{ padding: '8px 18px', borderBottom: SEC, fontFamily: mono, fontSize: 10, letterSpacing: '.14em', color: '#99a1a7' }}>AT A GLANCE</div>
-              {GLANCE.map((g, i) => (
-                <div key={g.k} className="ec-glance" style={{ display: 'grid', gridTemplateColumns: '160px 1fr', gap: 16, padding: '10px 18px', borderBottom: i < GLANCE.length - 1 ? '1px solid rgba(15,20,23,.06)' : undefined }}>
-                  <span style={{ fontFamily: mono, fontSize: 11, color: A }}>{g.k}</span>
-                  <span style={{ fontSize: 13, lineHeight: 1.5, color: '#2c343a' }}>{g.v}</span>
-                </div>
-              ))}
+      <CaseMain>
+        <GlanceCard rows={GLANCE} labelWidth="160px" />
+
+        <ProductShot
+          src="/covers/ecostruxure.svg"
+          width={1200}
+          height={420}
+          alt="The Energy Hub dashboard: a module sidebar, KPI tiles for consumption, cost, peak demand and active alarms, a twelve-month consumption trend chart, a site status list and a recent alarms panel."
+          caption="The Dashboard module — energy overview, site-level visibility, device status, trends, KPIs and quick access to alerts. Illustrative recreation; figures and site names are representative."
+        />
+
+        {/* ── 01 BUSINESS PROBLEM ── */}
+        <CaseSection n="01" label="Business problem">
+          <H2 maxW="22ch" mb={14}>Energy data, siloed across buildings and devices.</H2>
+          <Lede maxW="72ch">
+            Large organizations typically operate multiple facilities with distributed electrical infrastructure. That
+            makes it hard to see energy usage in one place, control who can act on it, and stay ahead of problems before
+            they become costly.
+          </Lede>
+
+          <div className="cs-grid-2" style={{ display: 'grid', gridTemplateColumns: '1.1fr 1fr', gap: 16 }}>
+            <div style={{ border: '1px solid var(--card-border)', borderRadius: 'var(--radius-tile)', padding: '22px 24px' }}>
+              <span style={sub}>What customers needed</span>
+              <Bullets items={PROBLEMS} />
             </div>
-          </div>
-        </header>
 
-        {/* ── 01 PRODUCT OVERVIEW / BUSINESS PROBLEM ── */}
-        <section style={S}>
-          <div className="ec-w" style={W}>
-            <SL n="01" label="BUSINESS PROBLEM" />
-            <H2 maxW="22ch" mb={14}>Energy data, siloed across buildings and devices.</H2>
-            <p style={{ margin: '0 0 24px', maxWidth: '68ch', fontSize: 15, lineHeight: 1.6, color: '#4b5660' }}>
-              Large organizations typically operate multiple facilities with distributed electrical infrastructure. That makes it hard to see energy usage in one place, control who can act on it, and stay ahead of problems before they become costly.
-            </p>
-            <div className="ec-grid-2" style={{ display: 'grid', gridTemplateColumns: '1.1fr 1fr', gap: 1, background: 'rgba(15,20,23,.09)', border: SEC }}>
-              <div style={{ background: '#fff', padding: '24px 26px' }}>
-                <div style={{ fontFamily: mono, fontSize: 11, letterSpacing: '.1em', color: '#99a1a7', marginBottom: 16 }}>WHAT CUSTOMERS NEEDED</div>
-                <Bullets items={PROBLEMS} />
-              </div>
-              <div style={{ background: '#fff', padding: '24px 26px', borderLeft: SEC }}>
-                <div style={{ fontFamily: mono, fontSize: 11, letterSpacing: '.1em', color: A, marginBottom: 14 }}>PRODUCT VISION</div>
-                <p style={{ margin: 0, fontSize: 15, lineHeight: 1.6, color: '#0f1417', fontWeight: 500 }}>
-                  A unified cloud platform that simplifies energy management — secure facility monitoring, insight anytime, efficient user administration, and timely notifications that support operational decisions.
-                </p>
-              </div>
-            </div>
+            <Callout label="Product vision">
+              A unified cloud platform that simplifies energy management — secure facility monitoring, insight anytime,
+              efficient user administration, and timely notifications that support operational decisions.
+            </Callout>
           </div>
-        </section>
+        </CaseSection>
 
         {/* ── 02 TARGET CUSTOMERS ── */}
-        <section style={S}>
-          <div className="ec-w" style={W}>
-            <SL n="02" label="TARGET CUSTOMERS" />
-            <H2 maxW="26ch" mb={20}>Multi-site enterprises across commercial and industrial energy use.</H2>
-            <Chips items={CUSTOMERS} />
-          </div>
-        </section>
+        <CaseSection n="02" label="Target customers">
+          <H2 maxW="26ch" mb={20}>Multi-site enterprises across commercial and industrial energy use.</H2>
+          <Chips items={CUSTOMERS} />
+        </CaseSection>
 
         {/* ── 03 MY ROLE ── */}
-        <section style={S}>
-          <div className="ec-w" style={W}>
-            <SL n="03" label="MY ROLE" />
-            <H2 maxW="26ch" mb={20}>Technical Product Owner, bridging product and engineering.</H2>
-            <p style={{ margin: '0 0 20px', maxWidth: '68ch', fontSize: 15, lineHeight: 1.6, color: '#4b5660' }}>
-              I translated product requirements into engineering deliverables, working closely with Product Management, UX, Software Engineering, QA, DevOps, Cybersecurity, and Architecture — and owned end-to-end delivery of five core platform capabilities.
-            </p>
-            <Bullets items={ROLE_RESPONSIBILITIES} mark="→" />
-          </div>
-        </section>
+        <CaseSection n="03" label="My role">
+          <H2 maxW="26ch" mb={16}>Technical Product Owner, bridging product and engineering.</H2>
+          <Lede maxW="72ch">
+            I translated product requirements into engineering deliverables, working closely with Product Management,
+            UX, Software Engineering, QA, DevOps, Cybersecurity, and Architecture — and owned end-to-end delivery of
+            five core platform capabilities.
+          </Lede>
+          <Bullets items={ROLE_RESPONSIBILITIES} mark="→" />
+        </CaseSection>
 
         {/* ── 04 MODULES OWNED ── */}
-        <section style={S}>
-          <div className="ec-w" style={W}>
-            <SL n="04" label="MODULES OWNED" />
-            <H2 maxW="26ch" mb={14}>Five platform capabilities, owned end to end.</H2>
-            <p style={{ margin: '0 0 28px', maxWidth: '68ch', fontSize: 15, lineHeight: 1.6, color: '#4b5660' }}>
-              Subscription Management, User Management, Dashboard, Mobile Application, and Notifications — each carried from requirement through release.
-            </p>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 1, background: 'rgba(15,20,23,.09)', border: SEC }}>
-              {MODULES.map(m => (
-                <div key={m.n} className="ec-module" style={{ background: '#fff', padding: '28px 26px' }}>
-                  <div style={{ display: 'flex', alignItems: 'baseline', gap: 14, marginBottom: 10 }}>
-                    <span style={{ fontFamily: mono, fontSize: 12, color: A }}>{m.n}</span>
-                    <span style={{ fontSize: 19, fontWeight: 600, letterSpacing: '-.01em', color: '#0f1417' }}>{m.title}</span>
+        <CaseSection n="04" label="Modules owned">
+          <H2 maxW="26ch" mb={14}>Five platform capabilities, owned end to end.</H2>
+          <Lede maxW="72ch">
+            Subscription Management, User Management, Dashboard, Mobile Application, and Notifications — each carried
+            from requirement through release.
+          </Lede>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+            {MODULES.map(m => (
+              <div key={m.n} style={{ border: '1px solid var(--card-border)', borderRadius: 'var(--radius-tile)', padding: '24px 24px' }}>
+                <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, marginBottom: 10 }}>
+                  <span style={{ fontFamily: mono, fontSize: 12, fontWeight: 600, color: 'var(--accent)' }}>{m.n}</span>
+                  <span style={{ fontFamily: 'var(--font-display)', fontSize: 19, fontWeight: 700, color: 'var(--ink)' }}>{m.title}</span>
+                </div>
+
+                <p style={{ margin: '0 0 22px', fontSize: 15, lineHeight: 1.65, color: 'var(--ink-soft)', maxWidth: '74ch' }}>
+                  {m.objective}
+                </p>
+
+                <div
+                  className={m.capabilities ? 'cs-grid-3' : 'cs-grid-2'}
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: m.capabilities ? '1.3fr 1fr 1fr' : '1.4fr 1fr',
+                    gap: 26,
+                  }}
+                >
+                  <div>
+                    <span style={sub}>Responsibilities</span>
+                    <Bullets items={m.responsibilities} />
                   </div>
-                  <p style={{ margin: '0 0 20px', fontSize: 14, lineHeight: 1.6, color: '#4b5660', maxWidth: '70ch' }}>{m.objective}</p>
-                  <div
-                    className="ec-module-grid"
-                    style={{
-                      display: 'grid',
-                      gridTemplateColumns: m.capabilities ? '1.3fr 1fr 1fr' : '1.4fr 1fr',
-                      gap: 28,
-                    }}
-                  >
+
+                  {m.capabilities && (
                     <div>
-                      <div style={{ fontFamily: mono, fontSize: 10, letterSpacing: '.1em', color: '#99a1a7', marginBottom: 12 }}>RESPONSIBILITIES</div>
-                      <Bullets items={m.responsibilities} />
+                      <span style={sub}>{m.capabilitiesLabel}</span>
+                      <Bullets items={m.capabilities} mark="•" />
                     </div>
-                    {m.capabilities && (
-                      <div>
-                        <div style={{ fontFamily: mono, fontSize: 10, letterSpacing: '.1em', color: '#99a1a7', marginBottom: 12 }}>{m.capabilitiesLabel}</div>
-                        <Bullets items={m.capabilities} mark="•" />
-                      </div>
-                    )}
-                    <div>
-                      <div style={{ fontFamily: mono, fontSize: 10, letterSpacing: '.1em', color: A, marginBottom: 12 }}>BUSINESS VALUE</div>
-                      <Bullets items={m.value} mark="✓" />
-                    </div>
+                  )}
+
+                  <div>
+                    <span style={{ ...sub, color: 'var(--accent)' }}>Business value</span>
+                    <Bullets items={m.value} mark="✓" />
                   </div>
                 </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* ── 05 AGILE PRODUCT OWNERSHIP / COLLABORATION ── */}
-        <section style={S}>
-          <div className="ec-w" style={W}>
-            <SL n="05" label="AGILE PRODUCT OWNERSHIP & COLLABORATION" />
-            <H2 maxW="26ch" mb={20}>Backlog to release, across a cross-functional team.</H2>
-            <div className="ec-grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1, background: 'rgba(15,20,23,.09)', border: SEC }}>
-              <div style={{ background: '#fff', padding: '24px 26px' }}>
-                <div style={{ fontFamily: mono, fontSize: 11, letterSpacing: '.1em', color: '#99a1a7', marginBottom: 16 }}>THROUGHOUT THE LIFECYCLE</div>
-                <Bullets items={AGILE} />
               </div>
-              <div style={{ background: '#fff', padding: '24px 26px', borderLeft: SEC }}>
-                <div style={{ fontFamily: mono, fontSize: 11, letterSpacing: '.1em', color: '#99a1a7', marginBottom: 16 }}>WORKED CLOSELY WITH</div>
-                <Chips items={COLLABORATORS} />
-              </div>
-            </div>
+            ))}
           </div>
-        </section>
+        </CaseSection>
 
-        {/* ── 06 TECHNOLOGY STACK ── */}
-        <section style={S}>
-          <div className="ec-w" style={W}>
-            <SL n="06" label="TECHNOLOGY & PRACTICES" />
-            <H2 maxW="26ch" mb={20}>Azure-native SaaS, secured by design.</H2>
-            <div className="ec-grid-4" style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 1, background: 'rgba(15,20,23,.09)', border: SEC }}>
-              {STACK.map(s => (
-                <div key={s.k} style={{ background: '#fff', padding: '20px 18px' }}>
-                  <div style={{ fontFamily: mono, fontSize: 12, color: A, marginBottom: 14 }}>{s.k}</div>
-                  <div style={{ fontSize: 14, fontWeight: 600, letterSpacing: '-.01em', marginBottom: 10, lineHeight: 1.25, color: '#0f1417' }}>{s.t}</div>
-                  <div style={{ fontSize: 13, lineHeight: 1.55, color: '#5b6670' }}>{s.d}</div>
-                </div>
-              ))}
+        {/* ── 05 AGILE OWNERSHIP ── */}
+        <CaseSection n="05" label="Agile product ownership & collaboration">
+          <H2 maxW="26ch" mb={20}>Backlog to release, across a cross-functional team.</H2>
+
+          <div className="cs-grid-2" style={{ display: 'grid', gap: 16 }}>
+            <div style={{ border: '1px solid var(--card-border)', borderRadius: 'var(--radius-tile)', padding: '22px 24px' }}>
+              <span style={sub}>Throughout the lifecycle</span>
+              <Bullets items={AGILE} />
+            </div>
+            <div style={{ border: '1px solid var(--card-border)', borderRadius: 'var(--radius-tile)', padding: '22px 24px' }}>
+              <span style={sub}>Worked closely with</span>
+              <Chips items={COLLABORATORS} />
             </div>
           </div>
-        </section>
+        </CaseSection>
+
+        {/* ── 06 TECHNOLOGY ── */}
+        <CaseSection n="06" label="Technology & practices">
+          <H2 maxW="26ch" mb={20}>Azure-native SaaS, secured by design.</H2>
+          <div className="cs-grid-4" style={{ display: 'grid', gap: 16 }}>
+            {STACK.map(s => <KeyCard key={s.k} k={s.k} t={s.t} d={s.d} />)}
+          </div>
+        </CaseSection>
 
         {/* ── 07 KEY SKILLS + OUTCOME ── */}
-        <section style={{ padding: '64px 0 80px', borderBottom: 'none' }}>
-          <div className="ec-w" style={W}>
-            <SL n="07" label="KEY SKILLS DEMONSTRATED" />
-            <div style={{ marginBottom: 40 }}>
-              <Chips items={SKILLS} />
-            </div>
-            <div style={{ fontFamily: mono, fontSize: 11, letterSpacing: '.1em', color: '#99a1a7', marginBottom: 14 }}>OUTCOME</div>
-            <div style={{ border: SEC, padding: '22px 26px' }}>
-              <p style={{ margin: 0, fontSize: 16, lineHeight: 1.6, color: '#0f1417', fontWeight: 500 }}>
-                Drove delivery of foundational platform capabilities supporting secure customer onboarding, subscription-based access, centralized user administration, intuitive dashboards, mobile accessibility, and timely notifications — essential building blocks of a consistent, scalable cloud experience for enterprise energy management customers.
-              </p>
-            </div>
+        <CaseSection n="07" label="Key skills demonstrated">
+          <div style={{ marginBottom: 32 }}>
+            <Chips items={SKILLS} />
           </div>
-        </section>
 
-        {/* ── Footer ── */}
-        <footer style={{ padding: '40px 0 28px' }}>
-          <div className="ec-w" style={{ ...W, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16, borderTop: '1px solid rgba(15,20,23,.1)', paddingTop: 18 }}>
-            <Link href="/#work" style={{ fontFamily: mono, fontSize: 12, letterSpacing: '.04em', textDecoration: 'none', color: '#2c343a', border: '1px solid rgba(15,20,23,.16)', padding: '10px 18px' }}>
-              ← Back to portfolio
-            </Link>
-            <a href="mailto:vijayeta.meher@gmail.com" style={{ fontFamily: mono, fontSize: 12, letterSpacing: '.04em', textDecoration: 'none', color: '#fff', background: A, padding: '10px 18px', fontWeight: 500 }}>
-              vijayeta.meher@gmail.com →
-            </a>
-          </div>
-        </footer>
+          <span style={sub}>Outcome</span>
+          <Callout>
+            Drove delivery of foundational platform capabilities supporting secure customer onboarding,
+            subscription-based access, centralized user administration, intuitive dashboards, mobile accessibility, and
+            timely notifications — essential building blocks of a consistent, scalable cloud experience for enterprise
+            energy management customers.
+          </Callout>
+        </CaseSection>
+      </CaseMain>
 
-      </main>
+      <CaseCTA />
     </>
   )
 }
