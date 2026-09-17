@@ -58,25 +58,21 @@ const SHIPPED = [
     n: '01',
     title: 'Search results redesign',
     body: 'Clearer hierarchy for result titles and metadata. Improved snippet visibility so users could evaluate relevance before clicking — reducing re-runs.',
-    screenshot: 'SEARCH RESULTS',
   },
   {
     n: '02',
     title: 'Filter & refinement overhaul',
     body: 'Filters became discoverable. Active filter state was surfaced explicitly. Advanced refinement options were placed where users actually needed them.',
-    screenshot: 'FILTER PANEL',
   },
   {
     n: '03',
     title: 'Interface modernisation',
     body: 'Cleaner layout, better spacing, more intuitive grouping of actions. Modern enterprise feel without disrupting familiar search patterns.',
-    screenshot: 'UI OVERVIEW',
   },
   {
     n: '04',
     title: 'End-to-end search journey',
     body: 'Friction reduced at every handoff: query entry → results review → filter application → content discovery. Each step made faster and more deliberate.',
-    screenshot: 'SEARCH JOURNEY',
   },
 ]
 
@@ -107,25 +103,6 @@ const IMPACT = [
 ]
 
 const sub = { fontFamily: mono, fontSize: 11, fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase' as const, color: 'var(--ink-faint)', marginBottom: 14, display: 'block' }
-
-/** Dashed placeholder standing in for a product screenshot. */
-function ScreenshotPlaceholder({ label }: { label: string }) {
-  return (
-    <div style={{
-      width: '100%', aspectRatio: '16/6', marginTop: 14,
-      background: 'var(--accent-tint)',
-      border: '1px dashed var(--accent-tint-border)',
-      borderRadius: 'var(--radius-chip)',
-      display: 'flex', flexDirection: 'column',
-      alignItems: 'center', justifyContent: 'center', gap: 8,
-    }}>
-      <span style={{ fontSize: 20, opacity: .35 }} aria-hidden="true">⬚</span>
-      <span style={{ fontFamily: mono, fontSize: 9.5, letterSpacing: '.18em', color: 'var(--accent)' }}>
-        {label}
-      </span>
-    </div>
-  )
-}
 
 // ── Page ──────────────────────────────────────────────────
 
@@ -191,7 +168,6 @@ export default function GSAPage() {
                   {s.title}
                 </div>
                 <p style={{ margin: 0, fontSize: 14, lineHeight: 1.6, color: 'var(--ink-soft)' }}>{s.body}</p>
-                <ScreenshotPlaceholder label={s.screenshot} />
               </div>
             ))}
           </div>

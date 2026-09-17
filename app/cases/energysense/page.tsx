@@ -15,7 +15,7 @@ const GLANCE = [
   { k: 'Product type',  v: 'AI-powered energy management SaaS' },
   { k: 'Target market', v: 'Commercial buildings, India (SME segment)' },
   { k: 'AI stack',      v: 'Claude Sonnet 4.6 (analysis/chat), Voyage AI voyage-3-lite (embeddings), Supabase pgvector' },
-  { k: 'Eval coverage', v: '12 upload-pipeline checks + 15 RAG regression evals in CI' },
+  { k: 'Eval coverage', v: '17 upload-analysis checks (5 auto-fix, 12 retry) + 15 RAG regression evals across 4 categories' },
   { k: 'Guardrails',    v: '11 pre-model controls (input, security, cost, reliability)' },
   { k: 'Role',          v: 'Solo PM + builder — research, strategy, architecture, evals, deployment' },
 ]
@@ -77,7 +77,7 @@ const DECISIONS = [
   { problem: 'Model selection',  options: 'Sonnet 4.6, Opus, GPT-4o, Gemini',   choice: 'Claude Sonnet 4.6',              why: "Best reasoning-to-cost ratio for outputting valid JSON and conversational prose from a single model." },
   { problem: 'RAG architecture', options: 'Pure context, pure RAG, hybrid',      choice: 'Hybrid context',                 why: "Always inject the specific user's data; dynamically retrieve heavy domain knowledge only when needed." },
   { problem: 'Embeddings',       options: 'OpenAI, Voyage AI, local',            choice: 'Voyage AI (voyage-3-lite)',       why: "Anthropic's recommended partner; asymmetric embeddings yield better cosine-similarity ranking." },
-  { problem: 'Chunking design',  options: 'Structured data, prose, short facts', choice: 'Dense prose paragraphs (~300 tok)', why: 'LLMs reason better from prose than tables; enables "why" follow-up questions.' },
+  { problem: 'Chunking design',  options: 'Structured data, prose, short facts', choice: 'Dense prose paragraphs (~135 tok)', why: 'LLMs reason better from prose than tables; enables "why" follow-up questions.' },
   { problem: 'Cost control',     options: 'Full history, cache, hard cap',       choice: 'Hard token budget',              why: 'A 10-message cap keeps pricing predictable regardless of conversation length.' },
 ]
 
@@ -92,7 +92,7 @@ const GUARDRAILS = [
   { cat: 'Input validation', n: 4, items: ['XSS sanitisation', 'min/max length caps', 'empty-input blocks', 'input size limits'] },
   { cat: 'Security',         n: 3, items: ['Prompt-injection regex', 'Regex for Indian mobile/Aadhaar data', 'Hard blocks for off-topic requests'] },
   { cat: 'Reliability',      n: 2, items: ['30-second API timeout triggers', 'Mapping Anthropic API errors to friendly messages'] },
-  { cat: 'Cost control',     n: 2, items: ['Duplicate-message guard (cached replies)', 'Prompt-length opportunity checks'] },
+  { cat: 'Cost control',     n: 2, items: ['Duplicate-message guard (cached replies)', '10-message history cap'] },
 ]
 
 const HYPOTHESES = [
@@ -103,13 +103,13 @@ const HYPOTHESES = [
 
 const SYNTHESIS = [
   { constraint: 'Zero capex budget for target market',  outcome: 'Engineered a robust CSV-parsing pipeline instead of relying on expensive physical IoT sensors.' },
-  { constraint: 'Strict prototype demo budget',         outcome: 'Developed a hybrid RAG architecture with a hard 10-message token cap, bounding cost at $0.005 per turn.' },
-  { constraint: 'Solo PM operating without a QA team', outcome: 'Built the automated evalAndFix retry loop and the 15-point CI regression suite to self-enforce the quality contract.' },
+  { constraint: 'Strict prototype demo budget',         outcome: 'Developed a hybrid RAG architecture with a hard 10-message token cap, bounding cost at ~$0.01 per turn.' },
+  { constraint: 'Solo PM operating without a QA team', outcome: 'Built the automated evalAndFix retry loop and the 15-point regression suite to self-enforce the quality contract.' },
 ]
 
 const LEADING = ['Upload activation (% reaching the dashboard)', 'Chat engagement rate', 'Recommendation-card click-through rate', 'Time-to-first-chat after upload']
 const LAGGING = ['Repeat upload rate (MoM retention)', 'Self-reported energy cost reduction']
-const OPERATIONAL = ['Response latency', 'Token cost per query (~$0.005 measured)', 'API error rate']
+const OPERATIONAL = ['Response latency', 'Token cost per query (~$0.01 estimated)', 'API error rate']
 
 const ROADMAP = [
   { k: 'NOW',   v: 'CI hardening · Energy Intensity KPI (kWh/sq ft)' },
@@ -132,13 +132,9 @@ export default function EnergySensePage() {
         subtitle="Democratising energy management for India's commercial buildings."
         lede="Empowering every facility manager to make energy optimisation decisions with the speed and intelligence of an expert energy consultant — no hardware, no six-figure retainer."
         links={
-          <>
-            <a href="https://energysense-ai.vercel.app" target="_blank" rel="noopener noreferrer" className="btn">
-              Live app →
-            </a>
-            {/* FILL: replace href="#" with Loom/YouTube demo URL when recorded */}
-            <a href="#" className="btn-outline btn-ghost-light">90-sec demo →</a>
-          </>
+          <a href="https://energysense-ai.vercel.app" target="_blank" rel="noopener noreferrer" className="btn">
+            Live app →
+          </a>
         }
       />
 
@@ -188,7 +184,7 @@ export default function EnergySensePage() {
           <H2 maxW="22ch" mb={14}>Validated before it was built, not after.</H2>
           <Lede>
             Insights drawn from 18 conversations with energy and facility professionals, supplemented by desk research
-            grounded in 13 years of hands-on energy management.
+            grounded in 12+ years delivering enterprise software.
           </Lede>
 
           <div style={{ marginBottom: 24 }}>
@@ -360,13 +356,14 @@ export default function EnergySensePage() {
             <div style={{ border: '1px solid var(--card-border)', borderRadius: 'var(--radius-tile)', padding: '22px 24px' }}>
               <span style={sub}>Token economics</span>
               <p style={{ margin: '0 0 18px', fontSize: 14, lineHeight: 1.65, color: 'var(--ink-soft)' }}>
-                The knowledge base contains 20 chunks of Indian energy domain knowledge (~7,200 tokens). Injecting all
+                The knowledge base contains 20 chunks of Indian energy domain knowledge (~2,660 tokens). Injecting all
                 of it on every turn would be expensive, slow, and redundant. Instead, the system retrieves only the 3
-                most relevant chunks per query, holding a deliberate ceiling of ~1,460 tokens per chat turn.
+                most relevant chunks per query, holding the system prompt to ~1,465 tokens per chat turn instead of
+                the ~3,725 it would take to carry the whole library.
               </p>
               <div style={{ display: 'flex', gap: 32 }}>
-                <Metric value="7,200 tok" label="Naive context" strike size="16px" />
-                <Metric value="~1,460 tok" label="Hybrid retrieval" size="16px" />
+                <Metric value="~3,725 tok" label="Naive context" strike size="16px" />
+                <Metric value="~1,465 tok" label="Hybrid retrieval" size="16px" />
               </div>
             </div>
 
@@ -375,7 +372,7 @@ export default function EnergySensePage() {
               padding: '22px 24px', display: 'flex', flexDirection: 'column',
               justifyContent: 'center', gap: 22,
             }}>
-              <Metric value="$0.005" label="cost per chat turn" accent />
+              <Metric value="~$0.01" label="est. cost per chat turn" accent />
             </div>
           </div>
         </CaseSection>
@@ -388,9 +385,9 @@ export default function EnergySensePage() {
             <div style={{ border: '1px solid var(--card-border)', borderRadius: 'var(--radius-tile)', padding: '20px 22px' }}>
               <H3>Gate 1 — the evalAndFix loop</H3>
               <p style={{ margin: '0 0 12px', fontSize: 14, lineHeight: 1.65, color: 'var(--ink-soft)' }}>
-                Every parsed CSV runs through an eval gate. 5 structural checks (trimming extra anomalies, lowercasing
-                flags) are silently auto-fixed with no API retry. 7 targeted checks (JSON parse failure, missing fields)
-                trigger a surgical feedback retry.
+                Every parsed CSV runs through an eval gate of 17 structural checks. 5 of them (trimming extra
+                anomalies, lowercasing flags) are silently auto-fixed with no API retry. The other 12 (JSON parse
+                failure, missing fields, invalid severity or category values) trigger a surgical feedback retry.
               </p>
               <p style={{ margin: 0, fontSize: 13.5, lineHeight: 1.65, color: 'var(--ink-soft)' }}>
                 Instead of failing or blindly retrying, the system feeds Claude its exact previous output alongside the
@@ -421,7 +418,7 @@ export default function EnergySensePage() {
                 border: '1px solid var(--accent-tint-border)', borderRadius: 'var(--radius-chip)',
                 fontFamily: mono, fontSize: 11.5, color: 'var(--accent)', lineHeight: 1.5,
               }}>
-                CI — GitHub Action on every Vercel deploy · results in repo artifacts
+                Runs manually today · exit code + JSON artifact already CI-ready
               </div>
             </div>
           </div>

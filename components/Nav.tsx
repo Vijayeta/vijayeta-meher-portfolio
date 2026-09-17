@@ -4,9 +4,9 @@ import { PROFILE } from '@/lib/data'
 
 const NAV_ITEMS = [
   { id: 'about',      label: 'About' },
-  { id: 'experience', label: 'Experience' },
   { id: 'work',       label: 'Work' },
   { id: 'ai-lab',     label: 'AI Lab' },
+  { id: 'experience', label: 'Experience' },
   { id: 'skills',     label: 'Skills' },
   // { id: 'writing',    label: 'Writing' },   // hidden with the Writing section
 ]

@@ -16,7 +16,7 @@ const GLANCE = [
   { k: 'Product type',  v: 'Retrieval-augmented Tier-1 customer-care assistant' },
   { k: 'AI stack',      v: 'qwen/qwen3.6-27b via Groq (generation), LangChain LCEL (orchestration), ChromaDB (vector store), all-MiniLM-L6-v2 (local embeddings)' },
   { k: 'Knowledge base', v: '81 documents across 3 independently indexed sources: FAQ, resolved tickets, official PDF guide' },
-  { k: 'Retrieval',     v: '9 passages per question: top-3 from each collection, queried concurrently' },
+  { k: 'Retrieval',     v: 'Up to 9 passages per question: top-3 from each collection, queried concurrently, gated at 0.10 relevance' },
   { k: 'Interfaces',    v: 'Streamlit chat UI + CLI REPL over one shared retrieval path' },
   { k: 'Role',          v: 'Solo PM + builder: PRD, scope, architecture, ingestion, evaluation, deployment' },
 ]
@@ -57,7 +57,7 @@ const CUT_FROM_V1 = [
   { feature: 'Billing integration',    why: 'Reading a real invoice makes a wrong answer financially consequential. Policy is answerable; balances are not.' },
   { feature: 'Multi-turn memory',      why: 'Retrieval is per-question in v1. Feeding conversation history into retrieval is a v2 change, not a prompt tweak.' },
   { feature: 'Multilingual support',   why: 'The knowledge base is English-only; translating answers without translating sources would break the citation chain.' },
-  { feature: 'Open (unresolved) tickets', why: 'An unresolved ticket has no verified fix, so indexing one lets an unconfirmed guess become a cited source.' },
+  { feature: 'Escalated (unresolved) tickets', why: 'An escalated ticket has no verified fix, so indexing one lets an unconfirmed guess become a cited source.' },
 ]
 
 const COLLECTIONS = [
@@ -136,7 +136,7 @@ export default function NovaCellPage() {
         eyebrow="AI Lab · Case study 02"
         title="Telecom RAG Assistant"
         subtitle="It answers Tier-1 telecom questions from three disconnected knowledge sources, and refuses anything they don't cover."
-        lede="NovaCell Support Assistant is a grounded question-answering system for mobile customer care. It fans a customer's question out across three separately indexed knowledge sources in parallel, assembles nine source-labelled passages into the prompt, and answers only from what it retrieved. When the sources don't cover the question, it says so and hands off to a human instead of guessing."
+        lede="NovaCell Support Assistant is a grounded question-answering system for mobile customer care. It fans a customer's question out across three separately indexed knowledge sources in parallel, assembles up to nine source-labelled passages into the prompt, and answers only from what it retrieved. When the sources don't cover the question, it says so and hands off to a human instead of guessing."
         tags={TAGS}
         callout={{
           label: 'The one-line story',
@@ -265,11 +265,12 @@ export default function NovaCellPage() {
             <Flow
               label="Stage 2 · merge & label"
               nodes={[
-                { text: '9 results' },
+                { text: 'Up to 9 results' },
+                { text: 'Relevance gate · 0.10', accent: true },
                 { text: 'Fixed source order' },
                 { text: 'Origin + identifier tags', accent: true },
               ]}
-              caption="Results are merged in a fixed source order and tagged with where they came from (FAQ | FAQ-12, TICKETS | TK-004, GUIDES | telecom_guide.pdf p.3), so the model can attribute a claim and never silently blend an un-retrieved fact into a retrieved one."
+              caption="Every candidate is scored and anything below a relevance threshold of 0.10 is dropped before it can reach the prompt, so a question the knowledge base does not cover arrives at the model with an empty context block. What survives is merged in a fixed source order and tagged with where it came from (FAQ | FAQ-12, TICKETS | TK-004, GUIDES | telecom_guide.pdf p.3), so the model can attribute a claim and never silently blend an un-retrieved fact into a retrieved one."
             />
             <Flow
               label="Stage 3 · ground"
@@ -315,7 +316,7 @@ export default function NovaCellPage() {
                 [
                   <span key="t" style={{ fontFamily: mono, fontSize: 11, letterSpacing: '.1em', color: 'var(--ink-faint)' }}>TOTAL</span>,
                   '3 independently indexed sources',
-                  '9 retrieved per question',
+                  'Up to 9 retrieved per question',
                   '81',
                 ],
               ]}
@@ -339,10 +340,10 @@ export default function NovaCellPage() {
             <div style={{ border: '1px solid var(--card-border)', borderRadius: 'var(--radius-tile)', padding: '20px 22px' }}>
               <H3>Only resolved tickets are indexed</H3>
               <p style={{ margin: '0 0 12px', fontSize: 14, lineHeight: 1.65, color: 'var(--ink-soft)' }}>
-                Nineteen of twenty tickets made it into the index. The one that didn&apos;t was still open.
+                Nineteen of twenty tickets made it into the index. The one that didn&apos;t was still escalated.
               </p>
               <p style={{ margin: 0, fontSize: 13.5, lineHeight: 1.65, color: 'var(--ink-soft)' }}>
-                An open ticket has no verified resolution to ground an answer in. Indexing one would let an unconfirmed
+                An escalated ticket has no verified resolution to ground an answer in. Indexing one would let an unconfirmed
                 guess become a cited source, which is the exact failure the citation model exists to prevent.
               </p>
             </div>
@@ -403,7 +404,7 @@ export default function NovaCellPage() {
             <div style={{ border: '1px solid var(--card-border)', borderRadius: 'var(--radius-tile)', padding: '18px 20px' }}>
               <span style={sub}>Why it matters</span>
               <p style={{ margin: 0, fontSize: 13.5, lineHeight: 1.6, color: 'var(--ink-soft)' }}>
-                A thumbs-down on its own tells you nothing actionable. A thumbs-down joined to the nine documents that
+                A thumbs-down on its own tells you nothing actionable. A thumbs-down joined to the documents that
                 produced it tells you whether to fix the FAQ or fix the prompt.
               </p>
             </div>
@@ -413,8 +414,9 @@ export default function NovaCellPage() {
           <div className="cs-grid-2" style={{ display: 'grid', gridTemplateColumns: '1.3fr 1fr', gap: 16 }}>
             <div style={{ border: '1px solid var(--card-border)', borderRadius: 'var(--radius-tile)', padding: '22px 24px' }}>
               <p style={{ margin: '0 0 14px', fontSize: 14, lineHeight: 1.65, color: 'var(--ink-soft)' }}>
-                Across 11 logged runs on a local machine, end-to-end responses landed between 0.4 and 1.6 seconds,
-                comfortably inside the 10-second target set in the PRD.
+                Across 31 logged runs on a local machine, end-to-end responses landed between 0.34 and 1.61 seconds
+                with a single 3.98-second outlier, median 0.83 — comfortably inside the 10-second target set in the
+                PRD.
               </p>
               <p style={{ margin: 0, fontSize: 13.5, lineHeight: 1.65, color: 'var(--ink-soft)' }}>
                 At that sample size it is a smoke test, not a benchmark. It confirms the concurrent fan-out isn&apos;t a
@@ -427,8 +429,8 @@ export default function NovaCellPage() {
               padding: '22px 24px', display: 'flex', flexDirection: 'column',
               justifyContent: 'center', gap: 22,
             }}>
-              <Metric value="0.8s" label="median, 11 logged runs" accent />
-              <Metric value="0.4–1.6s" label="observed range · 10s target" />
+              <Metric value="0.8s" label="median, 31 logged runs" accent />
+              <Metric value="0.34–1.61s" label="observed range · 10s target" />
             </div>
           </div>
         </CaseSection>
@@ -442,7 +444,7 @@ export default function NovaCellPage() {
             <ol style={{ margin: 0, padding: '0 0 0 20px', display: 'flex', flexDirection: 'column', gap: 16 }}>
               <li style={{ fontSize: 15, lineHeight: 1.65, color: 'var(--ink-soft)' }}>
                 <strong style={{ color: 'var(--ink)' }}>Cross-encoder re-ranking before generation.</strong>{' '}
-                Nine passages currently reach the prompt in fixed source order. Re-ranking them on relevance would put
+                Up to nine passages currently reach the prompt in fixed source order. Re-ranking them on relevance would put
                 the strongest evidence where the model weights it most.
               </li>
               <li style={{ fontSize: 15, lineHeight: 1.65, color: 'var(--ink-soft)' }}>

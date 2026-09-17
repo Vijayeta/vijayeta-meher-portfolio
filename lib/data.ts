@@ -142,10 +142,10 @@ export const CASES: Case[] = [
       "Shipped a self-enforced quality contract — an evalAndFix retry loop plus a 15-point regression suite",
     ],
     main: { target: 20, dec: 0, prefix: '', suffix: '%' },
-    mainLabel: 'energy savings identified',
+    mainLabel: 'energy savings opportunity (10–20%)',
     cover: '/covers/energysense.webp',
     sub: [
-      { target: 0.005, dec: 3, prefix: '$',  suffix: '',  label: 'cost per chat turn' },
+      { target: 0.01, dec: 2, prefix: '$',  suffix: '',  label: 'est. cost per chat turn' },
     ],
     href: '/cases/energysense',
   },
@@ -156,7 +156,7 @@ export const CASES: Case[] = [
     problem: "A mobile operator's Tier-1 answers already exist — split across a public FAQ, a resolved-ticket database and a PDF user guide. Customers can't search them together, and a confidently wrong answer about a price or a policy is worse than no answer at all.",
     approach: [
       'Fanned every question across three separately indexed sources in parallel, rather than one blended index where a verbose source crowds out the others',
-      'Grounded generation in nine source-labelled passages, so each claim traces back to a document a support operator owns',
+      'Grounded generation in up to nine source-labelled passages, so each claim traces back to a document a support operator owns',
       'Made refusal a shipped feature — account-specific and off-topic questions are handed to a human instead of guessed at',
     ],
     main: { target: 0.8, dec: 1, prefix: '', suffix: 's' },
@@ -164,7 +164,7 @@ export const CASES: Case[] = [
     cover: '/covers/novacell.webp',
     sub: [
       { target: 81, dec: 0, prefix: '', suffix: '', label: 'documents indexed' },
-      { target: 9,  dec: 0, prefix: '', suffix: '', label: 'sources cited / answer' },
+      { target: 9,  dec: 0, prefix: '', suffix: '', label: 'max passages / answer' },
     ],
     href: '/cases/novacell',
   },

@@ -24,9 +24,9 @@ export default function Page() {
       >
         <Stats />
         <Story />
-        <Experience />
         <Work />
         <Cases />
+        <Experience />
         <Skills />
         {/* <Writing /> */}
       </main>
