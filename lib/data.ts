@@ -127,7 +127,7 @@ export const CAREER: CareerRow[] = [
 
 export const WORKS: Work[] = [
   { idx: '01', year: '2023', name: 'Global Search', blurb: 'UI modernisation of an internal enterprise search platform serving 75,000 visits per day — owned from discovery through delivery at Ericsson.', metric: '75K/day', metricLabel: 'searches served', tag: 'Enterprise', cover: '/covers/gsa.svg', href: '/work/gsa' },
-  { idx: '02', year: '2022–Present', name: 'EcoStruxure Energy Hub', blurb: 'Enterprise SaaS platform for energy management — own the roadmap across two Agile teams, driving ARR growth through customer-driven prioritization and Secure SDLC adoption.', metric: '5 modules', metricLabel: 'owned end to end', tag: 'Energy', cover: '/covers/ecostruxure.svg', href: '/work/ecostruxure' },
+  { idx: '02', year: '2022–Present', name: 'EcoStruxure Energy Hub', blurb: 'Enterprise SaaS platform for energy management — own the roadmap across two Agile teams, driving ARR growth through customer-driven prioritization and Secure SDLC adoption.', metric: '5 modules', metricLabel: 'owned end to end', tag: 'Energy', cover: '/covers/ecostruxure.webp', href: '/work/ecostruxure' },
 ]
 
 export const CASES: Case[] = [

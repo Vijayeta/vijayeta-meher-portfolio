@@ -169,11 +169,11 @@ export default function EcoStruxurePage() {
         <GlanceCard rows={GLANCE} labelWidth="160px" />
 
         <ProductShot
-          src="/covers/ecostruxure.svg"
-          width={1200}
-          height={420}
-          alt="The Energy Hub dashboard: a module sidebar, KPI tiles for consumption, cost, peak demand and active alarms, a twelve-month consumption trend chart, a site status list and a recent alarms panel."
-          caption="The Dashboard module — energy overview, site-level visibility, device status, trends, KPIs and quick access to alerts. Illustrative recreation; figures and site names are representative."
+          src="/covers/ecostruxure.webp"
+          width={2400}
+          height={1031}
+          alt="The Energy Hub Investigate view, captured from the product: the Home / Inbox / Investigate / Tenant billing / Setup navigation, Asset / Energy / Cost / Electrical view switcher, a searchable asset tree for an organisation with Australia, EU and India sites, an Alarms summary listing over-ambient-temperature and energy-consumption alarms with device IDs and elapsed time, an Alarms by location bar chart, and an Info side panel with alarm settings and tariffs tabs."
+          caption="The Investigate module, captured from the product on an anonymised demo tenant. The asset tree on the left, alarms in the middle and the info panel on the right are the three surfaces a facility team moves between — which is why the roadmap work concentrated there."
         />
 
         {/* ── 01 BUSINESS PROBLEM ── */}
